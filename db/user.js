@@ -13,17 +13,12 @@ function updateUser() {
 
 }
 
-function deleteUser() {
-
-}
-
 module.exports = function(connectionPool) {
   pool = connectionPool;
   console.log(pool);
   return {
     create: createUser,
     read: readUser,
-    update: updateUser,
-    delete: deleteUser
+    update: updateUser
   }
 }

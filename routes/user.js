@@ -53,6 +53,11 @@ router.post('/update', passport.authenticate('jwt', {session: false}), (req, res
 
   res.status(200).send('Updated password for ' + req.user.user);
 
+});
+
+router.post('/forgot', (req, res) => {
+  // TODO: Build forgot password functionality
+  res.status(501)
 })
 
 module.exports = router;

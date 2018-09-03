@@ -28,15 +28,10 @@ function updateUser(username, password) {
   console.log("Successfully saved user");
 }
 
-function deleteUser() {
-
-}
-
 module.exports = function() {
   return {
     create: createUser,
     read: readUser,
-    update: updateUser,
-    delete: deleteUser
+    update: updateUser
   }
 }

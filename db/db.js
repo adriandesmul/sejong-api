@@ -21,10 +21,14 @@ pool.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
 if (process.env.DB == "mock") {
   console.log("- - - USING MOCKS - - -")
   module.exports = {
-    user: require('./mocks/user.js')()
+    user: require('./mocks/user.js')(),
+    demographics: require('./mocks/demographics.js')(),
+    writing: require('./mocks/writing.js')()
   }
 } else {
   module.exports = {
-    user: require('./user.js')(pool)
+    user: require('./user.js')(pool),
+    demographics: require('./demographics.js')(pool),
+    writing: require('./writing.js')(pool)
   }
 }
