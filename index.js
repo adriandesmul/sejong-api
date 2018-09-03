@@ -1,3 +1,9 @@
+const path = require('path');
+
+require('dotenv').config({
+  path: path.resolve(process.cwd(), 'local.env')
+});
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -5,6 +11,8 @@ const passport = require('passport');
 
 require('./auth/login.js');
 require('./auth/jwt.js');
+
+var db = require('./db/db.js');
 
 app.use(passport.initialize());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,21 +22,17 @@ app.use(function(req, res, next) {
   next();
 });
 app.use((req, res, next) => {
-  console.log('API Request');
+  console.log('- - -');
+  console.log('API Request on ' + req.path);
   next();
 });
 
 const auth = require('./routes/auth.js');
+const user = require('./routes/user.js');
 
 app.use('/auth', auth);
+app.use('/user', user);
 
 app.get('/', (req, res) => res.send("Hello world!"));
-
-app.get('/user', passport.authenticate('jwt', {session: false}),
-  (req, res) => {
-    console.log(req.user, req.admin);
-    res.send("User: " + req.user.user + " :: Admin: " + req.user.admin);
-  }
-)
 
 app.listen(3000, () => console.log('API listening on port 3000!'));

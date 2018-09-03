@@ -17,11 +17,16 @@
   },
   "homepage": "https://github.com/adriandesmul/sejong-api#readme",
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
+    "mysql": "^2.16.0",
+    "nodemon": "^1.18.4",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "validator": "^10.7.1"
   }
 }
