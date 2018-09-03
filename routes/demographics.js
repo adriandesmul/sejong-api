@@ -4,6 +4,7 @@ const db = require('../db/db.js');
 
 router.get('/', (req, res) => {
   // TODO: Get and return demographics for logged in user
+  var data = db.demographics.read(req.user.guid);
   res.status(501).send("NYI - " + req.user.user);
 })
 

@@ -14,16 +14,17 @@ function readUser(username) {
   var password = bcrypt.hashSync(username + "123", saltRounds)
 
   return {
+    guid: 'abc123',
     username: username,
     password: password,
     admin: false
   }
 }
 
-function updateUser(username, password) {
+function updateUser(guid, password) {
   console.log('- - - MOCK - - -')
   console.log('Update password')
-  console.log("Username: ", username)
+  console.log("GUID: ", guid)
   console.log("Password: ", password)
   console.log("Successfully saved user");
 }

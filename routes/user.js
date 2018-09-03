@@ -49,7 +49,7 @@ router.post('/update', passport.authenticate('jwt', {session: false}), (req, res
 
   var hashedPassword = bcrypt.hashSync(password, saltRounds);
 
-  db.user.update(req.user.user, hashedPassword);
+  db.user.update(req.user.guid, hashedPassword);
 
   res.status(200).send('Updated password for ' + req.user.user);
 
