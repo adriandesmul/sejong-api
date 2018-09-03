@@ -1,13 +1,31 @@
 var pool = null;
 
-function readDemographics() {
+function readDemographics(guid) {
   console.log('- - - MOCK - - -')
   console.log('Read demographics');
+  return {
+    personalFirstName: 'John',
+    personalLastName: 'Smith',
+    personalDateOfBirth: '1/2/2001',
+    addressLine1: '123 Main St.',
+    addressLine2: 'Apt. B',
+    addressTown: 'My City',
+    addressState: 'IL',
+    addressCountry: 'United States of America',
+    addressZip: '12345',
+    schoolName: 'My School',
+    schoolTown: 'My town',
+    schoolState: 'IN',
+    schoolCountry: 'United States of America',
+    schoolTeacher: 'Mr. Teacher'
+  }
 }
 
-function updateDemographics() {
+function updateDemographics(guid, data) {
   console.log('- - - MOCK - - -')
   console.log('Update demographics');
+  console.log('GUID: ', guid);
+  console.log(data)
 }
 
 module.exports = function() {
