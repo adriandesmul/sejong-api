@@ -1,7 +1,7 @@
 const path = require('path');
 
 require('dotenv').config({
-  path: path.resolve(process.cwd(), 'local.env')
+  path: path.resolve(process.cwd(), 'dev.env')
 });
 
 const express = require('express');
@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  if (req.method === "OPTIONS") { res.send(200); }
   next();
 });
 app.use((req, res, next) => {

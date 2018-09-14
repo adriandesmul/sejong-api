@@ -1,13 +1,17 @@
 const bcrypt = require('bcrypt');
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
-function createUser(username, email, password) {
+function createUser(username, email, password, cb) {
   console.log('- - - MOCK - - -')
   console.log("Create user")
   console.log("Username: ", username)
   console.log("Email: ", email)
   console.log("Password: ", password)
   console.log("Successfully saved user");
+  cb({
+    error: false,
+    status: "Created user: " + username
+  });
 }
 
 function readUser(username) {

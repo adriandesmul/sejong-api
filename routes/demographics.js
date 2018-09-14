@@ -6,7 +6,7 @@ const validate = require('./validators/demographics.js').validate;
 router.get('/', (req, res) => {
 
   var data = db.demographics.read(req.user.guid);
-  res.status(200).send(data);
+  res.send(data);
 
 })
 

@@ -4,7 +4,8 @@
   "description": "Sejong Writing Competition API",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local-db": "docker run -p 3306:3306 -v '$PWD'/local-db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/adriandesmul/sejong-api#readme",
   "dependencies": {
+    "async": "^2.6.1",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",

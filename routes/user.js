@@ -33,9 +33,11 @@ router.post('/new', (req, res) => {
 
   var hashedPassword = bcrypt.hashSync(password, saltRounds)
 
-  db.user.create(username, email, hashedPassword);
+  db.user.create(username, email, hashedPassword, (result) => {
+    if (result.error) res.status(400);
+    res.send(result.status);
+  });
 
-  res.status(200).send('Created user: ' + username);
 });
 
 router.post('/update', passport.authenticate('jwt', {session: false}), (req, res) => {
