@@ -14,15 +14,15 @@ function createUser(username, email, password, cb) {
   });
 }
 
-function readUser(username) {
+function readUser(username, cb) {
   var password = bcrypt.hashSync(username + "123", saltRounds)
 
-  return {
+  cb({
     guid: 'abc123',
     username: username,
     password: password,
     admin: false
-  }
+  })
 }
 
 function updateUser(guid, password) {

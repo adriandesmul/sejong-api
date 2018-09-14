@@ -12,7 +12,6 @@ function createUser(username, email, password, cb) {
     password: password
   }, (err, result, fields) => {
     if (err) {
-      console.log(err.code)
       res.error = true;
       res.status = 'Username already exists'
     } else {
@@ -25,10 +24,23 @@ function createUser(username, email, password, cb) {
 
 }
 
-function readUser(username) {
+function readUser(username, cb) {
   if (!username) { return; }
+
+  var res = {
+    error: false,
+    user: null
+  }
+
   pool.query('SELECT * FROM users WHERE username = ?', [username], (err, rows, fields) => {
-    console.log(rows)
+    if (err) {
+      res.error = true;
+      cb(res);
+      return;
+    }
+
+    res.user = rows[0];
+    cb(res);
   })
 }
 
