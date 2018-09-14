@@ -25,12 +25,16 @@ function readUser(username, cb) {
   })
 }
 
-function updateUser(guid, password) {
+function updateUser(guid, password, cb) {
   console.log('- - - MOCK - - -')
   console.log('Update password')
   console.log("GUID: ", guid)
   console.log("Password: ", password)
   console.log("Successfully saved user");
+  cb({
+    error: false,
+    status: "Updated password: " + guid
+  })
 }
 
 module.exports = function() {

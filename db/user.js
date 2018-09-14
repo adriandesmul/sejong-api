@@ -44,8 +44,22 @@ function readUser(username, cb) {
   })
 }
 
-function updateUser() {
+function updateUser(id, password, cb) {
+  pool.query('UPDATE users SET password = ? WHERE user_id = ?', [password, id], (err, rows, fields) => {
+    if (err) {
+      cb({
+        error: true,
+        status: err.error_code
+      })
+      return
+    }
 
+    cb({
+      error: false,
+      status: "Updated password"
+    })
+
+  })
 }
 
 module.exports = function(connectionPool) {
