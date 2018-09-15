@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 
-var pool = { query: 'q' }
+var pool;
 
 if (process.env.DB == "mock") {
   console.log("- - - USING MOCKS - - -")
@@ -10,7 +10,7 @@ if (process.env.DB == "mock") {
     writing: require('./mocks/writing.js')()
   }
 } else {
-  
+
   var pool = mysql.createPool({
     connectionLimit: 5,
     host: process.env.DB_HOST,
