@@ -1,6 +1,6 @@
 {
   "name": "sejong-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Sejong Writing Competition API",
   "private": true,
   "scripts": {
