@@ -15,10 +15,10 @@ function createUser(username, email, password, cb) {
 }
 
 function readUser(username, cb) {
-  var password = bcrypt.hashSync(username + "123", saltRounds)
+  var password = bcrypt.hashSync(username + "123", bcrypt.genSaltSync(saltRounds))
 
   var user = {
-    guid: 'abc123',
+    user_id: '123',
     username: username,
     password: password,
     admin: false
