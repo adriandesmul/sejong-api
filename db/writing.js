@@ -8,8 +8,7 @@ function readWriting(entryType, user_id, cb) {
         cb(true, err.code);
         return;
       }
-
-      cb(false, rows[0]);
+      cb(false, rows[0] || { title: '', body: '' });
   });
 }
 
