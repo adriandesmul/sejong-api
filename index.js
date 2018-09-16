@@ -1,7 +1,7 @@
 const path = require('path');
 
 require('dotenv').config({
-  path: path.resolve(process.cwd(), 'dev.env')
+  path: path.resolve(process.cwd(), 'local.env')
 });
 
 const express = require('express');

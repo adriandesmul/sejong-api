@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 
 const validator = require('validator');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 const db = require('../db/db.js');

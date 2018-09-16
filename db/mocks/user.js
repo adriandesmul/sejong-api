@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 function createUser(username, email, password, cb) {

@@ -1,7 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const db = require('../db/db.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 passport.use(new LocalStrategy((username, password, done) => {
