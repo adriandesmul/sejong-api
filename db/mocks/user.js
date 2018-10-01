@@ -10,7 +10,11 @@ function createUser(username, email, password, cb) {
   console.log("Successfully saved user");
   cb({
     error: false,
-    status: "Created user: " + username
+    status: {
+      'guid': '1',
+      'user': username,
+      'admin': false
+    }
   });
 }
 

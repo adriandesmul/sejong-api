@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const validator = require('validator');
 const bcrypt = require('bcrypt-nodejs');
@@ -9,13 +10,18 @@ const db = require('../db/db.js');
 
 router.post('/new', (req, res) => {
 
-  var username = req.body.username;
-  var email = req.body.email;
-  var password = req.body.password;
+  var username = req.body.username || '';
+  var email = req.body.email || '';
+  var password = req.body.password || '';
 
   // Validate Username
   if(!validator.isAlphanumeric(username)) {
     res.status(422).send('Username not alphanumeric')
+    return;
+  }
+
+  if(!validator.isLength(username, {min: 3})) {
+    res.status(422).send('Username too short')
     return;
   }
 
@@ -31,11 +37,17 @@ router.post('/new', (req, res) => {
     return;
   }
 
-  var hashedPassword = bcrypt.hashSync(password, saltRounds)
+  var hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(saltRounds))
 
   db.user.create(username, email, hashedPassword, (result) => {
-    if (result.error) res.status(400);
-    res.send(result.status);
+    if (result.error) {
+      res.status(400);
+      res.send(result.status);
+      return;
+    }
+
+    const token = jwt.sign(result.status, process.env.SECRET_KEY)
+    res.send(token)
   });
 
 });
