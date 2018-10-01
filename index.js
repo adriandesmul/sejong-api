@@ -1,7 +1,14 @@
 const path = require('path');
 
+let env = 'local';
+for (let item in process.argv) {
+  if (process.argv[item].indexOf('mode') != -1) {
+    env = process.argv[item].split('=')[1]
+  }
+}
+
 require('dotenv').config({
-  path: path.resolve(process.cwd(), 'local.env')
+  path: path.resolve(process.cwd(), env + '.env')
 });
 
 const express = require('express');
