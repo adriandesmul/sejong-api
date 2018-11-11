@@ -61,3 +61,12 @@ dynamo.putItem(params, (err, data) => {
   if (err) console.log(err)
   console.log(data)
 })
+
+if (process.env.DB == "mock") {
+  console.log("- - - USING MOCKS - - -")
+  module.exports = {
+    user: require('./mocks/user.js')(),
+    demographics: require('./mocks/demographics.js')(),
+    writing: require('./mocks/writing.js')()
+  }
+}
