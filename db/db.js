@@ -50,7 +50,7 @@ let params = {
       S: "test123"
     },
     "admin": {
-      BOOL: false
+      BOOL: true
     }
   },
   ReturnConsumedCapacity: "TOTAL",
