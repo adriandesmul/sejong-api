@@ -1,9 +1,14 @@
 const path = require('path');
 
 let env = 'local';
+let port = 3000;
 for (let item in process.argv) {
   if (process.argv[item].indexOf('mode') != -1) {
     env = process.argv[item].split('=')[1]
+  }
+
+  if (process.argv[item].indexOf('port') != -1) {
+    port = parseInt(process.argv[item].split('=')[1])
   }
 }
 
@@ -47,4 +52,4 @@ app.use('/writing', passport.authenticate('jwt', {session: false}), writing);
 
 app.get('/', (req, res) => res.send("Hello world!"));
 
-app.listen(3000, () => console.log('API listening on port 3000!'));
+app.listen(port, () => console.log('API listening on port ' + port));

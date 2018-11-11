@@ -1,3 +1,5 @@
+/*
+
 var mysql = require('mysql');
 
 var pool;
@@ -25,3 +27,37 @@ if (process.env.DB == "mock") {
     writing: require('./writing.js')(pool)
   }
 }
+
+*/
+
+const uuid = require('uuid/v4')
+
+var AWS = require('aws-sdk');
+var dynamo = new AWS.DynamoDB({region: 'us-east-1'})
+
+let params = {
+  Item: {
+    "user_id": {
+      S: uuid()
+    },
+    "username": {
+      S: "test"
+    },
+    "email": {
+      S: "test@example.com"
+    },
+    "password": {
+      S: "test123"
+    },
+    "admin": {
+      BOOL: false
+    }
+  },
+  ReturnConsumedCapacity: "TOTAL",
+  TableName: "sejong-users"
+}
+
+dynamo.putItem(params, (err, data) => {
+  if (err) console.log(err)
+  console.log(data)
+})

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha './**/*.spec.js'",
     "start-local": "nodemon index.js --mode=local",
-    "start-dev": "nodemon index.js --mode=dev",
+    "start-dev": "nodemon index.js --mode=dev --port=4000",
     "start-prod": "node index.js --mode=prod",
     "local-db": "docker run -p 3306:3306 -v '$PWD'/local-db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql"
   },
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/adriandesmul/sejong-api#readme",
   "dependencies": {
     "async": "^2.6.1",
+    "aws-sdk": "^2.353.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
@@ -32,6 +33,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "uuid": "^3.3.2",
     "validator": "^10.7.1"
   },
   "devDependencies": {
