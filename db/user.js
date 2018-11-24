@@ -6,6 +6,7 @@ function createUser(username, email, password, cb) {
     status: ''
   }
 
+  // TODO: Update with AWS Dynamo
   pool.query('INSERT INTO users SET ?', {
     username: username,
     email: email,
@@ -32,6 +33,7 @@ function readUser(username, cb) {
     user: null
   }
 
+  // TODO: Update with AWS Dynamo
   pool.query('SELECT * FROM users WHERE username = ?', [username], (err, rows, fields) => {
     if (err) {
       res.error = true;
@@ -45,6 +47,7 @@ function readUser(username, cb) {
 }
 
 function updateUser(id, password, cb) {
+  // TODO: Update with AWS Dynamo
   pool.query('UPDATE users SET password = ? WHERE user_id = ?', [password, id], (err, rows, fields) => {
     if (err) {
       cb({
@@ -62,12 +65,17 @@ function updateUser(id, password, cb) {
   })
 }
 
+function resetPassword(email) {
+  // TODO: Implement password reset with multiple users per email
+}
+
 module.exports = function(connectionPool) {
   pool = connectionPool;
 
   return {
     create: createUser,
     read: readUser,
-    update: updateUser
+    update: updateUser,
+    resetPassword: resetPassword
   }
 }

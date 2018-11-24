@@ -46,10 +46,18 @@ function updateUser(guid, password, cb) {
   })
 }
 
+function resetPassword(email) {
+  console.log('- - - MOCK - - -')
+  console.log('Reset password')
+  console.log("Email: ", email)
+  console.log("Successfully reset user password");
+}
+
 module.exports = function() {
   return {
     create: createUser,
     read: readUser,
-    update: updateUser
+    update: updateUser,
+    resetPassword: resetPassword
   }
 }
