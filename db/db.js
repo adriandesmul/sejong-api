@@ -30,38 +30,6 @@ if (process.env.DB == "mock") {
 
 */
 
-const uuid = require('uuid/v4')
-
-var AWS = require('aws-sdk');
-var dynamo = new AWS.DynamoDB({region: 'us-east-1'})
-
-let params = {
-  Item: {
-    "user_id": {
-      S: uuid()
-    },
-    "username": {
-      S: "test"
-    },
-    "email": {
-      S: "test@example.com"
-    },
-    "password": {
-      S: "test123"
-    },
-    "admin": {
-      BOOL: true
-    }
-  },
-  ReturnConsumedCapacity: "TOTAL",
-  TableName: "sejong-users"
-}
-
-dynamo.putItem(params, (err, data) => {
-  if (err) console.log(err)
-  console.log(data)
-})
-
 if (process.env.DB == "mock") {
   console.log("- - - USING MOCKS - - -")
   module.exports = {
@@ -69,4 +37,37 @@ if (process.env.DB == "mock") {
     demographics: require('./mocks/demographics.js')(),
     writing: require('./mocks/writing.js')()
   }
+} else {
+
+  const uuid = require('uuid/v4')
+
+  var AWS = require('aws-sdk');
+  var dynamo = new AWS.DynamoDB({region: 'us-east-1'})
+
+  let params = {
+    Item: {
+      "user_id": {
+        S: uuid()
+      },
+      "username": {
+        S: "test"
+      },
+      "email": {
+        S: "test@example.com"
+      },
+      "password": {
+        S: "test123"
+      },
+      "admin": {
+        BOOL: true
+      }
+    },
+    ReturnConsumedCapacity: "TOTAL",
+    TableName: "sejong-users"
+  }
+
+  dynamo.putItem(params, (err, data) => {
+    if (err) console.log(err)
+    console.log(data)
+  })
 }

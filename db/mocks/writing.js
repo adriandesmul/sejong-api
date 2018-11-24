@@ -19,6 +19,7 @@ function saveWriting(title, body, entryType, user_id, cb) {
   console.log('Title: ', title);
   console.log('Body: ', body);
   console.log('Type: ', entryType);
+  console.log('Year: ', competitionYear);
   cb(false, 'Submission save successful')
 }
 
