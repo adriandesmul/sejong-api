@@ -33,7 +33,7 @@ function readUser(username, cb) {
   })
 }
 
-function updateUser(username, password, cb) {
+function updateUser(username, password, email, admin, cb) {
   console.log('- - - MOCK - - -')
   console.log('Update password')
   console.log("Username: ", username)
@@ -45,18 +45,10 @@ function updateUser(username, password, cb) {
   })
 }
 
-function resetPassword(email) {
-  console.log('- - - MOCK - - -')
-  console.log('Reset password')
-  console.log("Email: ", email)
-  console.log("Successfully reset user password");
-}
-
 module.exports = function() {
   return {
     create: createUser,
     read: readUser,
-    update: updateUser,
-    resetPassword: resetPassword
+    update: updateUser
   }
 }
