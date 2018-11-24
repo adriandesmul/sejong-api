@@ -5,7 +5,7 @@ const validate = require('./validators/demographics.js').validate;
 
 router.get('/', (req, res) => {
 
-  var data = db.demographics.read(req.user.guid);
+  var data = db.demographics.read(req.user.username);
   res.send(data);
 
 })
@@ -16,7 +16,7 @@ router.post('/update', (req, res) => {
   var validityCheck = validate(data);
 
   if (validityCheck.isValid) {
-    db.demographics.update(req.user.guid, data)
+    db.demographics.update(req.user.username, data)
     res.status(200).send('Updated demographics for ' + req.user.user)
   } else {
     res.status(422).send(validityCheck.errors)

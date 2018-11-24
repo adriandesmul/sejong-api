@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha './**/*.spec.js'",
     "start-local": "nodemon index.js --mode=local",
-    "start-dev": "nodemon index.js --mode=dev --port=4000",
+    "start-dev": "nodemon index.js --mode=dev --port=3000",
     "start-prod": "node index.js --mode=prod",
     "local-db": "docker run -p 3306:3306 -v '$PWD'/local-db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql"
   },

@@ -4,7 +4,7 @@ const validator = require('validator');
 const db = require('../db/db.js');
 
 router.get('/sijo', (req, res) => {
-  db.writing.read('sijo', req.user.guid, (error, data) => {
+  db.writing.read('sijo', req.user.username, (error, data) => {
     if (error) {
       res.status(500).send('Error reading sijo');
       return;
@@ -34,7 +34,7 @@ router.post('/save', (req, res) => {
     return;
   }
 
-  db.writing.save(title, body, entryType, req.user.guid, (error, status) => {
+  db.writing.save(title, body, entryType, req.user.username, (error, status) => {
     if (error) res.status(400);
     res.send(status);
   })

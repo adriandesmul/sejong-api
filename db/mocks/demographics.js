@@ -1,6 +1,6 @@
 var pool = null;
 
-function readDemographics(guid) {
+function readDemographics(username) {
   console.log('- - - MOCK - - -')
   console.log('Read demographics');
   return {
@@ -21,10 +21,10 @@ function readDemographics(guid) {
   }
 }
 
-function updateDemographics(guid, data) {
+function updateDemographics(username, data) {
   console.log('- - - MOCK - - -')
   console.log('Update demographics');
-  console.log('GUID: ', guid);
+  console.log('Username: ', username);
   console.log(data)
 }
 

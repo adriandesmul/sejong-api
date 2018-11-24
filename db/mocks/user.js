@@ -11,7 +11,6 @@ function createUser(username, email, password, cb) {
   cb({
     error: false,
     status: {
-      'guid': '1',
       'user': username,
       'admin': false
     }
@@ -34,15 +33,15 @@ function readUser(username, cb) {
   })
 }
 
-function updateUser(guid, password, cb) {
+function updateUser(username, password, cb) {
   console.log('- - - MOCK - - -')
   console.log('Update password')
-  console.log("GUID: ", guid)
+  console.log("Username: ", username)
   console.log("Password: ", password)
   console.log("Successfully saved user");
   cb({
     error: false,
-    status: "Updated password: " + guid
+    status: "Updated password: " + username
   })
 }
 

@@ -15,7 +15,6 @@ passport.use(new LocalStrategy((username, password, done) => {
 
       if(bcrypt.compareSync(password, user.password)) {
         return done(null, {
-          'guid': user.user_id,
           'user': user.username,
           'admin': user.admin
         });
