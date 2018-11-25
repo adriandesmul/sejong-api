@@ -4,6 +4,7 @@ function readWriting(entry_type, username, cb) {
   console.log('- - - MOCK - - -')
   console.log('Read writing');
   console.log('Username is (' + username + ')')
+  console.log('- - - END MOCK - - -')
 
   var blank_sijo = {
     "submission_id": '',
@@ -70,6 +71,7 @@ function saveWriting(username, submission_id, entry_type, division,
   console.log('Division: ', division);
   console.log('Folktale: ', folktale);
   console.log('Year: ', competitionYear);
+  console.log('- - - END MOCK - - -')
   cb(false, 'Submission save successful')
 }
 

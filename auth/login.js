@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt-nodejs');
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 passport.use(new LocalStrategy((username, password, done) => {
-  console.log("Login attempt :: user: " + username + " :: pass: " + password);
+  console.log("[AUTH] Login attempt for (" + username + ")");
 
   db.user.read(username, (res) => {
       var user = res.user;

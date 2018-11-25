@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
       res.status(500).send();
       return;
     }
-
+    console.log("[DEMO] Got demographics for (" + req.user.user + ")");
     res.send(result.data);
   });
 
@@ -46,6 +46,7 @@ router.post('/update', (req, res) => {
         res.status(500).send(result.msg);
         return;
       }
+      console.log("[DEMO] Updated demographics for (" + req.user.user + ")");
       res.status(200).send('Updated demographics for ' + req.user.user);
     })
   } else {

@@ -11,7 +11,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
 router.post('/login',
   passport.authenticate('local', { session: false }),
   (req, res) => {
-    console.log("Successful login as (" + req.user.user + ")");
+    console.log("[AUTH] Successful login as (" + req.user.user + ")");
     const token = jwt.sign(req.user, process.env.SECRET_KEY);
     res.send(token);
   }
@@ -20,19 +20,18 @@ router.post('/login',
 router.post('/forgotPassword', (req, res) => {
   var username = req.body.username;
   var email = req.body.email;
-  console.log("Password reset request for " + email)
+  console.log("[AUTH] Password reset request for (" + username + ")")
   if (!validator.isEmail(email)) {
     res.status(200).send();
     return;
   }
 
   db.user.read(username, (res) => {
-    console.log('Getting email for ' + username);
+    console.log('[AUTH - PW RESET] Getting email for (' + username + ')');
     if (res.error) return;
 
-    console.log("Found email: (" + res.user.email + ") and expected (" + email + ")")
     if (res.user.email == email) {
-      console.log("Updating password")
+      console.log('[AUTH - PW RESET] Updaing password for (' + username + ')');
       var newPassword = "NewPassword"; // TODO: Randomize + email
 
       var hashedPassword = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(saltRounds));

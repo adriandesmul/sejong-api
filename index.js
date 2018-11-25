@@ -35,7 +35,8 @@ app.use(function(req, res, next) {
   next();
 });
 app.use((req, res, next) => {
-  console.log('- - -');
+  console.log('');
+  console.log('~ ~ [ NEW REQUEST ] ~ ~');
   console.log('API Request on ' + req.path);
   next();
 });

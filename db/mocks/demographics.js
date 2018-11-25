@@ -31,6 +31,9 @@ function readDemographics(username, keys, cb) {
       address_zip: '12345'
     }
   }
+
+  console.log('- - - END MOCK - - -')
+
   cb({
     error: false,
     data: returnObj
@@ -42,6 +45,8 @@ function updateDemographics(username, data, cb) {
   console.log('Update demographics');
   console.log('Username: ', username);
   console.log(data)
+  console.log('- - - END MOCK - - -')
+  
   cb({
     error: false,
     msg: 'Updated demographics for ' + username

@@ -8,6 +8,8 @@ function createUser(username, email, password, cb) {
   console.log("Email: ", email)
   console.log("Password: ", password)
   console.log("Successfully saved user");
+  console.log('- - - END MOCK - - -')
+
   cb({
     error: false,
     status: {
@@ -40,6 +42,8 @@ function updateUser(username, password, email, admin, cb) {
   console.log("Username: ", username)
   console.log("Password: ", password)
   console.log("Successfully saved user");
+  console.log('- - - END MOCK - - -')
+  
   cb({
     error: false,
     status: "Updated password: " + username
