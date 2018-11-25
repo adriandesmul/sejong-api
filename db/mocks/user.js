@@ -24,6 +24,7 @@ function readUser(username, cb) {
     user_id: '123',
     username: username,
     password: password,
+    email: username + "@gmail.com",
     admin: false
   }
 
