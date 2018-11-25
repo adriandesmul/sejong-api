@@ -1,11 +1,13 @@
 var pool = null;
 
-function readDemographics(username) {
+function readDemographics(username, keys, cb) {
   console.log('- - - MOCK - - -')
   console.log('Read demographics for (' + username + ')');
 
+  var returnObj;
+
   if (username == 'blank') {
-    return {
+    returnObj = {
       personal_first_name: '',
       personal_last_name: '',
       personal_date_of_birth: '',
@@ -17,7 +19,7 @@ function readDemographics(username) {
       address_zip: ''
     }
   } else {
-    return {
+    returnObj = {
       personal_first_name: 'John',
       personal_last_name: 'Smith',
       personal_date_of_birth: '1/2/2001',
@@ -29,13 +31,21 @@ function readDemographics(username) {
       address_zip: '12345'
     }
   }
+  cb({
+    error: false,
+    data: returnObj
+  })
 }
 
-function updateDemographics(username, data) {
+function updateDemographics(username, data, cb) {
   console.log('- - - MOCK - - -')
   console.log('Update demographics');
   console.log('Username: ', username);
   console.log(data)
+  cb({
+    error: false,
+    msg: 'Updated demographics for ' + username
+  })
 }
 
 module.exports = function() {
