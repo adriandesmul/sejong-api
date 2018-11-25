@@ -1,9 +1,9 @@
 var pool = null;
 var competitionYear = process.env.YEAR;
 
-function readWriting(entryType, user_id, cb) {
+function readWriting(entry_type, user_id, cb) {
   pool.query('SELECT * FROM writing WHERE user_id = ? AND type = ? AND year = ?',
-    [user_id, entryType, competitionYear] , (err, rows) => {
+    [user_id, entry_type, competitionYear] , (err, rows) => {
       if (err) {
         cb(true, err.code);
         return;
@@ -12,9 +12,9 @@ function readWriting(entryType, user_id, cb) {
   });
 }
 
-function saveWriting(title, body, entryType, user_id, cb) {
+function saveWriting(title, body, entry_type, user_id, cb) {
   pool.query('SELECT submission_id FROM writing WHERE user_id = ? AND type = ? AND year = ?',
-    [user_id, entryType, competitionYear] , (err, rows) => {
+    [user_id, entry_type, competitionYear] , (err, rows) => {
 
       if (err) {
         cb(true, err.code);
@@ -45,7 +45,7 @@ function saveWriting(title, body, entryType, user_id, cb) {
           title: title,
           body: body,
           year: competitionYear,
-          type: entryType,
+          type: entry_type,
           user_id: user_id
         }, (err, result) => {
           if (err) {
