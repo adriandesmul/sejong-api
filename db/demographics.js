@@ -36,7 +36,37 @@ function readDemographics(username, keys, cb) {
 }
 
 function updateDemographics(username, data, cb) {
+  if (!username) { return; }
 
+  var res = {
+    error: false,
+    msg: null
+  }
+
+  var putParams = {
+    Item: {
+      "username": { S: username }
+    },
+    ReturnConsumedCapacity: "TOTAL",
+    TableName: "sejong-demographics"
+  }
+
+  for (let key in data) {
+    putParams.Item[key] = { S: data[key] }
+  }
+
+  pool.putItem(putParams, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.error = true;
+      res.status = "Unknown error";
+      cb(res);
+      return;
+    }
+
+    res.status = "Updated demographics";
+    cb(res);
+  })
 }
 
 module.exports = function(connectionPool) {
