@@ -23,7 +23,6 @@ function readUser(username, cb) {
   var password = bcrypt.hashSync(username + "123", bcrypt.genSaltSync(saltRounds))
 
   var user = {
-    user_id: '123',
     username: username,
     password: password,
     email: username + "@gmail.com",
@@ -43,7 +42,7 @@ function updateUser(username, password, email, admin, cb) {
   console.log("Password: ", password)
   console.log("Successfully saved user");
   console.log('- - - END MOCK - - -')
-  
+
   cb({
     error: false,
     status: "Updated password: " + username

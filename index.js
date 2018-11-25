@@ -45,11 +45,13 @@ const auth = require('./routes/auth.js');
 const user = require('./routes/user.js');
 const demographics = require('./routes/demographics.js');
 const writing = require('./routes/writing.js');
+const admin = require('./routes/admin.js');
 
 app.use('/auth', auth);
 app.use('/user', user);
 app.use('/demographics', passport.authenticate('jwt', {session: false}), demographics);
 app.use('/writing', passport.authenticate('jwt', {session: false}), writing);
+app.use('/admin', passport.authenticate('jwt', {session: false}), admin);
 
 app.get('/', (req, res) => res.send("Hello world!"));
 
