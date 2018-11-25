@@ -63,16 +63,11 @@ router.post('/update', passport.authenticate('jwt', {session: false}), (req, res
 
   var hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(saltRounds));
 
-  db.user.update(req.user.username, hashedPassword, (result) => {
+  db.user.update(req.user.user, hashedPassword, req.user.email, req.user.admin, (result) => {
     if (result.error) res.status(400)
     res.send(result.status)
   });
 
 });
-
-router.post('/forgot', (req, res) => {
-  // TODO: Build forgot password functionality
-  res.status(501)
-})
 
 module.exports = router;

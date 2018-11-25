@@ -15,7 +15,7 @@ describe('Auth route', function() {
           password: 'test123'
         })
         .expect(200)
-        .expect('Content-Length', '143')
+        .expect('Content-Length', '176')
         .end(done)
     });
 
