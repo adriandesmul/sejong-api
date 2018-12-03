@@ -8,10 +8,11 @@ function createUser(username, email, password, cb) {
   console.log("Email: ", email)
   console.log("Password: ", password)
   console.log("Successfully saved user");
+  console.log('- - - END MOCK - - -')
+
   cb({
     error: false,
     status: {
-      'guid': '1',
       'user': username,
       'admin': false
     }
@@ -22,9 +23,9 @@ function readUser(username, cb) {
   var password = bcrypt.hashSync(username + "123", bcrypt.genSaltSync(saltRounds))
 
   var user = {
-    user_id: '123',
     username: username,
     password: password,
+    email: username + "@gmail.com",
     admin: false
   }
 
@@ -34,30 +35,24 @@ function readUser(username, cb) {
   })
 }
 
-function updateUser(guid, password, cb) {
+function updateUser(username, password, email, admin, cb) {
   console.log('- - - MOCK - - -')
   console.log('Update password')
-  console.log("GUID: ", guid)
+  console.log("Username: ", username)
   console.log("Password: ", password)
   console.log("Successfully saved user");
+  console.log('- - - END MOCK - - -')
+
   cb({
     error: false,
-    status: "Updated password: " + guid
+    status: "Updated password: " + username
   })
-}
-
-function resetPassword(email) {
-  console.log('- - - MOCK - - -')
-  console.log('Reset password')
-  console.log("Email: ", email)
-  console.log("Successfully reset user password");
 }
 
 module.exports = function() {
   return {
     create: createUser,
     read: readUser,
-    update: updateUser,
-    resetPassword: resetPassword
+    update: updateUser
   }
 }

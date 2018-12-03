@@ -1,4 +1,5 @@
 var pool = null;
+const uuid = require('uuid/v4')
 
 function createUser(username, email, password, cb) {
   var res = {
@@ -6,21 +7,49 @@ function createUser(username, email, password, cb) {
     status: ''
   }
 
-  // TODO: Update with AWS Dynamo
-  pool.query('INSERT INTO users SET ?', {
-    username: username,
-    email: email,
-    password: password
-  }, (err, result, fields) => {
+  var getParams = {
+    Key: {
+      "username": { S: username }
+    },
+    TableName: "sejong-users"
+  };
+
+  var putParams = {
+    Item: {
+      "username": { S: username },
+      "email": { S: email },
+      "password": { S: password },
+      "admin": { BOOL: false }
+    },
+    ReturnConsumedCapacity: "TOTAL",
+    TableName: "sejong-users"
+  };
+
+  pool.getItem(getParams, (err, data) => {
     if (err) {
+      console.log(err);
       res.error = true;
-      res.status = 'Username already exists'
-    } else {
-      res.status = 'Created new user: ' + username
+      res.status = "Unknown error"
+      cb(res);
+      return;
     }
 
-    cb(res);
-
+    if (data.Item) {
+      res.error = true;
+      res.status = "Username already exists"
+      console.log("Attempted to create new user: (" + username + ") and the user already exists");
+      cb(res)
+    } else {
+      pool.putItem(putParams, (err, data) => {
+        if (err) console.log(err);
+        res.status = {
+          'user': username,
+          'admin': false
+        }
+        console.log('Created new user: ' + username);
+        cb(res)
+      })
+    }
   })
 
 }
@@ -33,40 +62,68 @@ function readUser(username, cb) {
     user: null
   }
 
-  // TODO: Update with AWS Dynamo
-  pool.query('SELECT * FROM users WHERE username = ?', [username], (err, rows, fields) => {
+  var getParams = {
+    Key: {
+      "username": { S: username }
+    },
+    TableName: "sejong-users"
+  }
+
+  pool.getItem(getParams, (err, data) => {
     if (err) {
+      console.log(err);
       res.error = true;
       cb(res);
       return;
     }
 
-    res.user = rows[0];
-    cb(res);
-  })
-}
-
-function updateUser(id, password, cb) {
-  // TODO: Update with AWS Dynamo
-  pool.query('UPDATE users SET password = ? WHERE user_id = ?', [password, id], (err, rows, fields) => {
-    if (err) {
-      cb({
-        error: true,
-        status: err.error_code
-      })
-      return
+    if (data.Item) {
+      console.log(data.Item)
+      res.user = {
+        username: data.Item.username.S,
+        password: data.Item.password.S,
+        admin: data.Item.admin.BOOL,
+        email: data.Item.email.S
+      }
+      cb(res);
+      return;
     }
 
-    cb({
-      error: false,
-      status: "Updated password"
-    })
-
+    res.error = true;
+    cb(res);
   })
+
 }
 
-function resetPassword(email) {
-  // TODO: Implement password reset with multiple users per email
+function updateUser(username, password, email, admin, cb) {
+  var res = {
+    error: false,
+    status: ''
+  };
+
+  var putParams = {
+    Item: {
+      "username": { S: username },
+      "password": { S: password },
+      "email": { S: email },
+      "admin": { BOOL: admin }
+    },
+    ReturnConsumedCapacity: "TOTAL",
+    TableName: "sejong-users"
+  }
+
+  pool.putItem(putParams, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.error = true;
+      res.status = "Unknown error";
+      cb(res);
+      return;
+    }
+
+    res.status = "Updated password";
+    cb(res);
+  })
 }
 
 module.exports = function(connectionPool) {
@@ -75,7 +132,6 @@ module.exports = function(connectionPool) {
   return {
     create: createUser,
     read: readUser,
-    update: updateUser,
-    resetPassword: resetPassword
+    update: updateUser
   }
 }

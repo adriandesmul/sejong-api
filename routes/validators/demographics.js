@@ -5,10 +5,11 @@ function validateDemographics(data) {
   var isValid = true;
 
   // Check empties
+  /*
   var checkEmpties = [
-    'personalFirstName',
-    'personalLastName',
-    'personalDateOfBirth'
+    'personal_first_name',
+    'personal_last_name',
+    'personal_date_of_birth'
   ]
   for (let key of checkEmpties) {
     if (!v.isEmpty(data[key])) { continue; }
@@ -16,23 +17,19 @@ function validateDemographics(data) {
     if (!errors[key]) { errors[key] = [] }
     errors[key].push('Required field');
   }
+  */
 
   // Check length
   var checkLength = [
-    'personalFirstName',
-    'personalLastName',
-    'personalDateOfBirth',
-    'addressLine1',
-    'addressLine2',
-    'addressTown',
-    'addressState',
-    'addressCountry',
-    'addressZip',
-    'schoolName',
-    'schoolTown',
-    'schoolState',
-    'schoolCountry',
-    'schoolTeacher'
+    'personal_first_name',
+    'personal_last_name',
+    'personal_date_of_birth',
+    'address_line_1',
+    'address_line_2',
+    'address_town',
+    'address_state',
+    'address_country',
+    'address_zip'
   ]
   for (let key of checkLength) {
     if (v.isLength(data[key], {max: 100})) { continue; }

@@ -14,6 +14,8 @@ router.post('/new', (req, res) => {
   var email = req.body.email || '';
   var password = req.body.password || '';
 
+  console.log('[USER - CREATE] Attempting to create user (' + username + ')');
+
   // Validate Username
   if(!validator.isAlphanumeric(username)) {
     res.status(422).send('Username not alphanumeric')
@@ -46,6 +48,7 @@ router.post('/new', (req, res) => {
       return;
     }
 
+    console.log('[USER - CREATE] Successfully created user (' + username + ')');
     const token = jwt.sign(result.status, process.env.SECRET_KEY)
     res.send(token)
   });
@@ -56,6 +59,8 @@ router.post('/update', passport.authenticate('jwt', {session: false}), (req, res
 
   var password = req.body.password;
 
+  console.log('[USER - UPDATE] Attempting to update user (' + req.user.user + ')');
+
   if(!validator.isLength(password, {min: 8})) {
     res.status(422).send('Password too short')
     return;
@@ -63,16 +68,12 @@ router.post('/update', passport.authenticate('jwt', {session: false}), (req, res
 
   var hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(saltRounds));
 
-  db.user.update(req.user.guid, hashedPassword, (result) => {
+  db.user.update(req.user.user, hashedPassword, req.user.email, req.user.admin, (result) => {
     if (result.error) res.status(400)
+    console.log('[USER - UPDATE] Successfully updated user (' + req.user.user + ')');
     res.send(result.status)
   });
 
 });
-
-router.post('/forgot', (req, res) => {
-  // TODO: Build forgot password functionality
-  res.status(501)
-})
 
 module.exports = router;

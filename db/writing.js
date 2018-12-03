@@ -1,63 +1,63 @@
 var pool = null;
-var competitionYear = process.env.YEAR;
+var competition_year = process.env.YEAR;
 
-function readWriting(entryType, user_id, cb) {
+function readWriting(entry_type, username, cb) {
+  if (!entry_type || !username) { return; }
+
+  var res = {
+    error: false,
+    data: null
+  }
+
+
+}
+
+function saveWriting(username, submission_id, entry_type, division,
+  folktale, title, body, cb) {
+
+  var res = {
+    error: false,
+    msg: null
+  }
+
+  var putParams = {
+    Item: {
+      "submission_id": { S: submission_id },
+      "username": { S: username },
+      "title": { S: title },
+      "body": { S: body },
+      "entry_type": { S: entry_type },
+      "division": { S: division },
+      "folktale": { S: folktale },
+      "year": { S: competition_year }
+    },
+    ReturnConsumedCapacity: "TOTAL",
+    TableName: "sejong-entries"
+  }
+
+  pool.putItem(putParams, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.error = true;
+      res.msg = "Unknown error";
+      cb(res);
+      return;
+    }
+    res.msg = "Save successful";
+    cb(res);
+  })
+
+}
+
+function readWriting_old(entry_type, user_id, cb) {
   pool.query('SELECT * FROM writing WHERE user_id = ? AND type = ? AND year = ?',
-    [user_id, entryType, competitionYear] , (err, rows) => {
+    [user_id, entry_type, competitionYear] , (err, rows) => {
       if (err) {
         cb(true, err.code);
         return;
       }
       cb(false, rows[0] || { title: '', body: '' });
   });
-}
-
-function saveWriting(title, body, entryType, user_id, cb) {
-  pool.query('SELECT submission_id FROM writing WHERE user_id = ? AND type = ? AND year = ?',
-    [user_id, entryType, competitionYear] , (err, rows) => {
-
-      if (err) {
-        cb(true, err.code);
-        return;
-      }
-
-      if (rows.length > 0) {
-
-        pool.query('UPDATE writing SET ? WHERE ?',
-          [
-            {
-              title: title,
-              body: body
-            }, {
-              submission_id: rows[0].submission_id
-            }
-          ], (err, rows) => {
-            if (err) {
-              cb(true, err.code);
-              return
-            }
-            console.log('Updated writing entry');
-            cb(false, 'Submission save successful')
-        });
-
-      } else {
-        pool.query('INSERT INTO writing SET ?', {
-          title: title,
-          body: body,
-          year: competitionYear,
-          type: entryType,
-          user_id: user_id
-        }, (err, result) => {
-          if (err) {
-            cb(true, err.code);
-            return
-          }
-          console.log('Created new writing entry');
-          cb(false, 'Submission save successful')
-        })
-      }
-    }
-  )
 }
 
 module.exports = function(connectionPool) {
