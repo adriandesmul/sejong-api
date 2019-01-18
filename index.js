@@ -1,7 +1,10 @@
 const path = require('path');
+const fs = require('fs');
+const https = require('https');
 
 let env = 'local';
 let port = 3000;
+let options = {};
 for (let item in process.argv) {
   if (process.argv[item].indexOf('mode') != -1) {
     env = process.argv[item].split('=')[1]
@@ -10,6 +13,11 @@ for (let item in process.argv) {
   if (process.argv[item].indexOf('port') != -1) {
     port = parseInt(process.argv[item].split('=')[1])
   }
+}
+
+if (env == "prod") {
+  options.cert = fs.readFileSync('/etc/letsencrypt/live/api.sejongculturalsociety.info/fullchain.pem');
+  options.key = fs.readFileSync('/etc/letsencrypt/live/api.sejongculturalsociety.info/privkey.pem');
 }
 
 require('dotenv').config({
@@ -56,3 +64,4 @@ app.use('/admin', passport.authenticate('jwt', {session: false}), admin);
 app.get('/', (req, res) => res.send("Hello world!"));
 
 app.listen(port, () => console.log('API listening on port ' + port));
+if (env == "prod") { https.createServer(options, app).listen(443) }

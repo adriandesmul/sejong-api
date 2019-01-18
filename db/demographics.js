@@ -24,11 +24,11 @@ function readDemographics(username, keys, cb) {
     }
 
     var returnObj = {};
-
+/*
     for (let key of keys) {
       returnObj[key] = (data.Item && data.Item[key]) ? data.Item[key].S || ''
     }
-
+*/
     res.data = returnObj;
     cb(res);
 

@@ -34,7 +34,8 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "uuid": "^3.3.2",
-    "validator": "^10.7.1"
+    "validator": "^10.7.1",
+    "yargs": "^12.0.5"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
