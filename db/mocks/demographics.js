@@ -1,12 +1,12 @@
 var pool = null;
 
-function readDemographics(username, keys, cb) {
+function readDemographics(user_id, keys, cb) {
   console.log('- - - MOCK - - -')
-  console.log('Read demographics for (' + username + ')');
+  console.log('Read demographics for (' + user_id + ')');
 
   var returnObj;
 
-  if (username == 'blank') {
+  if (user_id == 2) {
     returnObj = {
       personal_first_name: '',
       personal_last_name: '',
@@ -40,16 +40,16 @@ function readDemographics(username, keys, cb) {
   })
 }
 
-function updateDemographics(username, data, cb) {
+function updateDemographics(user_id, data, cb) {
   console.log('- - - MOCK - - -')
   console.log('Update demographics');
-  console.log('Username: ', username);
+  console.log('User ID: ', user_id);
   console.log(data)
   console.log('- - - END MOCK - - -')
-  
+
   cb({
     error: false,
-    msg: 'Updated demographics for ' + username
+    msg: 'Updated demographics for ' + user_id
   })
 }
 

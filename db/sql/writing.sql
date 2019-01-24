@@ -4,6 +4,8 @@ CREATE TABLE writing (
   title VARCHAR(255),
   body MEDIUMTEXT,
   type VARCHAR(255),
-  year INT,
+  year VARCHAR(4),
+  division VARCHAR(255),
+  folktale VARCHAR(255),
   PRIMARY KEY (submission_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

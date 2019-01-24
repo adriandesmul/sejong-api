@@ -1,6 +1,6 @@
-const request = require('supertest')('http://localhost:3000')
-const contentToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTU0MzE1NjM4N30.PfqfrALotVGPmTY493Ty-vHMNASLOYW4z1oluko0Lvw"
-const emptyToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYmxhbmsiLCJlbWFpbCI6ImJsYW5rQGdtYWlsLmNvbSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNTQzMTU2MDUxfQ.f7KmIPajA7DVBo1QKBAMOKa2zSa2q9dYFAM1p-Ka0H4"
+const request = require('supertest')('http://localhost:3000');
+const contentToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyIjoidGVzdCIsImVtYWlsIjoiYWRyaWFuZGVzbXVsQGdtYWlsLmNvbSIsImFkbWluIjowLCJpYXQiOjE1NDgzMDA3Mzd9.oUQAiwG3fYADXQZTO9BG5Ilsj7-22HqyMoke53SfuLs"
+const emptyToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyIjoiYmxhbmsiLCJlbWFpbCI6ImFkcmlhbmRlc211bEBnbWFpbC5jb20iLCJhZG1pbiI6MCwiaWF0IjoxNTQ4MzAwNzM3fQ.62lMFHGb8STiLkefQ5YIF31ZwloHUZHwGW9LLzGvHT4"
 
 describe('Writing route', function() {
   describe('SIJO', function() {

@@ -1,71 +1,88 @@
 var pool = null;
 
-function readDemographics(username, keys, cb) {
-  if (!username) { return; }
+function readDemographics(user_id, keys, cb) {
+  if (!user_id) { return; }
 
   var res = {
     error: false,
     data: null
   }
 
-  var getParams = {
-    Key: {
-      "username": { S: username }
-    },
-    TableName: "sejong-demographics"
-  }
-
-  pool.getItem(getParams, (err, data) => {
-    if (err) {
-      console.log(err);
+  pool.query("SELECT * FROM demographics WHERE user_id = ?", [
+    user_id
+  ], (error, data) => {
+    if (error) {
+      console.log(error);
       res.error = true;
       cb(res);
       return;
     }
 
-    var returnObj = {};
-/*
-    for (let key of keys) {
-      returnObj[key] = (data.Item && data.Item[key]) ? data.Item[key].S || ''
+    if (data[0] && data[0].demographics_id) {
+      res.data = data[0];
+      cb(res);
+      return;
     }
-*/
-    res.data = returnObj;
+
+    res.error = true;
     cb(res);
 
   })
 }
 
-function updateDemographics(username, data, cb) {
-  if (!username) { return; }
+function updateDemographicsCallback(error, data, cb) {
+
+  if (error) {
+    console.log(error);
+    cb({
+      error: true,
+      msg: "Unknown error"
+    })
+    return;
+  }
+
+  cb({
+    error: false,
+    msg: "Save successful"
+  })
+
+}
+
+function updateDemographics(user_id, demographics, cb) {
+  if (!user_id) { return; }
 
   var res = {
     error: false,
     msg: null
   }
 
-  var putParams = {
-    Item: {
-      "username": { S: username }
-    },
-    ReturnConsumedCapacity: "TOTAL",
-    TableName: "sejong-demographics"
-  }
+  demographics.user_id = user_id;
 
-  for (let key in data) {
-    putParams.Item[key] = { S: data[key] }
-  }
+  pool.query("SELECT demographics_id FROM demographics WHERE user_id = ?",
+    [user_id], (error, data) => {
 
-  pool.putItem(putParams, (err, data) => {
-    if (err) {
-      console.log(err);
+    if (error) {
+      console.log(error)
       res.error = true;
-      res.status = "Unknown error";
+      res.msg = "Unknown error"
       cb(res);
       return;
     }
 
-    res.status = "Updated demographics";
-    cb(res);
+    if (data[0] && data[0].demographics_id) {
+      pool.query("UPDATE demographics SET ? WHERE demographics_id = ?", [
+        demographics,
+        data[0].demographics_id
+      ], (error, data) => {
+        updateDemographicsCallback(error, data, cb);
+      })
+    } else {
+      pool.query("INSERT INTO demographics SET ?", [
+        demographics
+      ], (error, data) => {
+        updateDemographicsCallback(error, data, cb);
+      })
+    }
   })
 }
 

@@ -3,6 +3,6 @@ CREATE TABLE users (
   username VARCHAR(255) UNIQUE,
   email VARCHAR(255),
   password VARCHAR(255),
-  admin INT,
+  admin BOOLEAN,
   PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
