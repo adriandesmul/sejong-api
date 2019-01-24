@@ -18,6 +18,7 @@ function writingUpdateCallback(error, data, cb) {
     error: false,
     msg: "Save successful"
   })
+  
 }
 
 function saveWriting(user_id, submission_id, entry_type, division,
@@ -53,10 +54,14 @@ function saveWriting(user_id, submission_id, entry_type, division,
       pool.query("UPDATE writing SET ? WHERE submission_id = ?", [
         dataObj,
         data[0].submission_id
-      ], writingUpdateCallback(error, data, cb))
+      ], (error, data) => {
+        writingUpdateCallback(error, data, cb);
+      })
     } else {
       pool.query("INSERT INTO writing SET ?", [ dataObj ],
-        writingUpdateCallback(error, data, cb));
+        (error, data) => {
+        writingUpdateCallback(error, data, cb);
+      });
     }
 
   })

@@ -17,7 +17,7 @@ const keys = [
 
 router.get('/', (req, res) => {
 
-  db.demographics.read(req.user.user, keys, (result) => {
+  db.demographics.read(req.user.user_id, keys, (result) => {
     if (result.error) {
       res.status(500).send();
       return;
@@ -41,7 +41,7 @@ router.post('/update', (req, res) => {
   var validityCheck = validate(data);
 
   if (validityCheck.isValid) {
-    db.demographics.update(req.user.user, data, (result) => {
+    db.demographics.update(req.user.user_id, data, (result) => {
       if (result.error) {
         res.status(500).send(result.msg);
         return;
