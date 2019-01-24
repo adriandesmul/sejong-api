@@ -22,9 +22,9 @@ router.get('/', (req, res) => {
       res.status(500).send();
       return;
     }
-    console.log("[DEMO] Got demographics for (" + req.user.user + ")");
+    req.log.info({user: req.user.user}, "Got demographics")
     res.send(result.data);
-  });
+  }, req.log);
 
 
 })
@@ -46,11 +46,11 @@ router.post('/update', (req, res) => {
         res.status(500).send(result.msg);
         return;
       }
-      console.log("[DEMO] Updated demographics for (" + req.user.user + ")");
+      req.log.info({user: req.user.user}, "Updated demographics")
       res.status(200).send('Updated demographics for ' + req.user.user);
-    })
+    }, req.log)
   } else {
-    console.log(validityCheck.errors)
+    req.log.error(validityCheck.errors)
     res.status(422).send(validityCheck.errors)
   }
 

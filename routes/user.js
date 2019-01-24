@@ -14,7 +14,7 @@ router.post('/new', (req, res) => {
   var email = req.body.email || '';
   var password = req.body.password || '';
 
-  console.log('[USER - CREATE] Attempting to create user (' + username + ')');
+  req.log.info({user: username}, "Creating user")
 
   // Validate Username
   if(!validator.isAlphanumeric(username)) {
@@ -48,10 +48,10 @@ router.post('/new', (req, res) => {
       return;
     }
 
-    console.log('[USER - CREATE] Successfully created user (' + username + ')');
+    req.log.info({user: username}, "Created user")
     const token = jwt.sign(result.status, process.env.SECRET_KEY)
     res.send(token)
-  });
+  }, req.log);
 
 });
 
@@ -59,7 +59,7 @@ router.post('/update', passport.authenticate('jwt', {session: false}), (req, res
 
   var password = req.body.password;
 
-  console.log('[USER - UPDATE] Attempting to update user (' + req.user.user + ')');
+  req.log.info({user: req.user.user}, "Updating user")
 
   if(!validator.isLength(password, {min: 8})) {
     res.status(422).send('Password too short')
@@ -70,9 +70,9 @@ router.post('/update', passport.authenticate('jwt', {session: false}), (req, res
 
   db.user.update(req.user.user, hashedPassword, req.user.email, req.user.admin, (result) => {
     if (result.error) res.status(400)
-    console.log('[USER - UPDATE] Successfully updated user (' + req.user.user + ')');
+    req.log.info({user: req.user.user}, "Updated user")
     res.send(result.status)
-  });
+  }, req.log);
 
 });
 

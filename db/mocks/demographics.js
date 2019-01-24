@@ -1,8 +1,7 @@
 var pool = null;
 
-function readDemographics(user_id, keys, cb) {
-  console.log('- - - MOCK - - -')
-  console.log('Read demographics for (' + user_id + ')');
+function readDemographics(user_id, keys, cb, log) {
+  log.info({user: user_id}, "[MOCK] Read demographics")
 
   var returnObj;
 
@@ -32,20 +31,14 @@ function readDemographics(user_id, keys, cb) {
     }
   }
 
-  console.log('- - - END MOCK - - -')
-
   cb({
     error: false,
     data: returnObj
   })
 }
 
-function updateDemographics(user_id, data, cb) {
-  console.log('- - - MOCK - - -')
-  console.log('Update demographics');
-  console.log('User ID: ', user_id);
-  console.log(data)
-  console.log('- - - END MOCK - - -')
+function updateDemographics(user_id, data, cb, log) {
+  log.info({user: user_id, data: data}, "[MOCK] Update demographics")
 
   cb({
     error: false,

@@ -1,6 +1,6 @@
 var pool = null;
 
-function readDemographics(user_id, keys, cb) {
+function readDemographics(user_id, keys, cb, log) {
   if (!user_id) { return; }
 
   var res = {
@@ -12,7 +12,7 @@ function readDemographics(user_id, keys, cb) {
     user_id
   ], (error, data) => {
     if (error) {
-      console.log(error);
+      log.error(error);
       res.error = true;
       cb(res);
       return;
@@ -30,10 +30,10 @@ function readDemographics(user_id, keys, cb) {
   })
 }
 
-function updateDemographicsCallback(error, data, cb) {
+function updateDemographicsCallback(error, data, cb, log) {
 
   if (error) {
-    console.log(error);
+    log.error(error);
     cb({
       error: true,
       msg: "Unknown error"
@@ -48,7 +48,7 @@ function updateDemographicsCallback(error, data, cb) {
 
 }
 
-function updateDemographics(user_id, demographics, cb) {
+function updateDemographics(user_id, demographics, cb, log) {
   if (!user_id) { return; }
 
   var res = {
@@ -62,7 +62,7 @@ function updateDemographics(user_id, demographics, cb) {
     [user_id], (error, data) => {
 
     if (error) {
-      console.log(error)
+      log.error(error)
       res.error = true;
       res.msg = "Unknown error"
       cb(res);
@@ -74,13 +74,13 @@ function updateDemographics(user_id, demographics, cb) {
         demographics,
         data[0].demographics_id
       ], (error, data) => {
-        updateDemographicsCallback(error, data, cb);
+        updateDemographicsCallback(error, data, cb, log);
       })
     } else {
       pool.query("INSERT INTO demographics SET ?", [
         demographics
       ], (error, data) => {
-        updateDemographicsCallback(error, data, cb);
+        updateDemographicsCallback(error, data, cb, log);
       })
     }
   })

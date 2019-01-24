@@ -1,7 +1,7 @@
 var pool = null;
 const uuid = require('uuid/v4')
 
-function createUser(username, email, password, cb) {
+function createUser(username, email, password, cb, log) {
   var res = {
     error: false,
     status: ''
@@ -11,7 +11,7 @@ function createUser(username, email, password, cb) {
     [username], (error, data) => {
 
     if (error) {
-      console.log(error);
+      log.error(error);
       res.error = true;
       cb(res);
       return;
@@ -20,7 +20,7 @@ function createUser(username, email, password, cb) {
     if (data[0] && data[0].user_id) {
       res.error = true;
       res.status = "Username already exists"
-      console.log("Attempted to create new user: (" + username + ") and the user already exists");
+      log.warn({user: username}, "User already exists");
       cb(res);
       return;
     }
@@ -32,14 +32,14 @@ function createUser(username, email, password, cb) {
       admin: false
     }, (error, data) => {
       if (error) {
-        console.log(error);
+        log.error(error);
         res.error = true;
         res.status = "Unknown error"
         cb(res)
         return;
       }
 
-      console.log("Created new user: " + username);
+      log.info({user: username}, "Created new user");
       res.status = {
         user: username,
         admin: false
@@ -50,7 +50,7 @@ function createUser(username, email, password, cb) {
   })
 }
 
-function readUser(username, cb) {
+function readUser(username, cb, log) {
   if (!username) { return; }
 
   var res = {
@@ -60,7 +60,7 @@ function readUser(username, cb) {
 
   pool.query('SELECT * FROM users WHERE username = ?', [username], (error, data) => {
     if (error) {
-      console.log(error);
+      log.error(error);
       res.error = true;
       cb(res);
       return;
@@ -84,7 +84,7 @@ function readUser(username, cb) {
   })
 }
 
-function updateUser(username, password, email, admin, cb) {
+function updateUser(username, password, email, admin, cb, log) {
   var res = {
     error: false,
     status: ''
@@ -99,7 +99,7 @@ function updateUser(username, password, email, admin, cb) {
     username
   ], (error, data) => {
     if (error) {
-      console.log(error);
+      log.error(error);
       res.error = true;
       res.status = "Unknown error";
       cb(res);

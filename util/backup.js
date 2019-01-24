@@ -1,6 +1,12 @@
+const bunyan = require('bunyan');
+const uuid = require('uuid');
+var log = bunyan.createLogger({name: 'sejong-api-backup'});
+
 function backup() {
 
-  console.log('Starting database backup');
+  const backup_id = uuid();
+
+  log.info({id: backup_id}, "Starting DB backup")
 
   const child_process = require('child_process');
   const path = require('path');
@@ -24,7 +30,7 @@ function backup() {
 
   child_process.execSync(cmd);
 
-  console.log('Exporting to S3')
+  log.info({id: backup_id}, "Export to S3")
 
   const aws = require('aws-sdk');
   var s3 = new aws.S3();
@@ -38,18 +44,16 @@ function backup() {
 
     s3.putObject(params, (err, data) => {
       if (err) {
-        console.log(err)
-        console.log("Error with database update")
+        log.error({id: backup_id, error: error}, "Error with backup")
       } else {
-        console.log(data)
-        console.log("Successfully completed database backup")
+        log.info({id: backup_id, data: data}, "Backup complete")
       }
 
       fs.unlink('./' + dateString + '-backup.sql', (err) => {
         if (err) {
-          console.log(err);
+          log.error({id: backup_id, error: error}, "Cleanup error")
         } else {
-          console.log("Cleaned up backup file: " + dateString + '-backup.sql')
+          log.info({id: backup_id}, "Cleaned up backup file")
         }
 
       })

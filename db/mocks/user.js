@@ -1,14 +1,8 @@
 const bcrypt = require('bcrypt-nodejs');
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
-function createUser(username, email, password, cb) {
-  console.log('- - - MOCK - - -')
-  console.log("Create user")
-  console.log("Username: ", username)
-  console.log("Email: ", email)
-  console.log("Password: ", password)
-  console.log("Successfully saved user");
-  console.log('- - - END MOCK - - -')
+function createUser(username, email, password, cb, log) {
+  log.info({username: username, email: email, password: password}, "[MOCK] Create user")
 
   cb({
     error: false,
@@ -19,7 +13,7 @@ function createUser(username, email, password, cb) {
   });
 }
 
-function readUser(username, cb) {
+function readUser(username, cb, log) {
   var password = bcrypt.hashSync(username + "123", bcrypt.genSaltSync(saltRounds))
 
   var user = {
@@ -35,13 +29,8 @@ function readUser(username, cb) {
   })
 }
 
-function updateUser(username, password, email, admin, cb) {
-  console.log('- - - MOCK - - -')
-  console.log('Update password')
-  console.log("Username: ", username)
-  console.log("Password: ", password)
-  console.log("Successfully saved user");
-  console.log('- - - END MOCK - - -')
+function updateUser(username, password, email, admin, cb, log) {
+  log.info({data: {username: username, email: email, password: password}}, "[MOCK] Update password")
 
   cb({
     error: false,

@@ -3,10 +3,10 @@ var competition_year = process.env.YEAR;
 
 var mysql = require('mysql')
 
-function writingUpdateCallback(error, data, cb) {
+function writingUpdateCallback(error, data, cb, log) {
 
   if (error) {
-    console.log(error);
+    log.error(error);
     cb({
       error: true,
       msg: "Unknown error"
@@ -18,11 +18,11 @@ function writingUpdateCallback(error, data, cb) {
     error: false,
     msg: "Save successful"
   })
-  
+
 }
 
 function saveWriting(user_id, submission_id, entry_type, division,
-  folktale, title, body, cb) {
+  folktale, title, body, cb, log) {
 
   var res = {
     error: false,
@@ -43,7 +43,7 @@ function saveWriting(user_id, submission_id, entry_type, division,
     user_id, entry_type, competition_year
   ], (error, data) => {
     if (error) {
-      console.log(error);
+      log.error(error);
       res.error = true;
       res.msg = "Unknown error";
       cb(res);
@@ -55,12 +55,12 @@ function saveWriting(user_id, submission_id, entry_type, division,
         dataObj,
         data[0].submission_id
       ], (error, data) => {
-        writingUpdateCallback(error, data, cb);
+        writingUpdateCallback(error, data, cb, log);
       })
     } else {
       pool.query("INSERT INTO writing SET ?", [ dataObj ],
         (error, data) => {
-        writingUpdateCallback(error, data, cb);
+        writingUpdateCallback(error, data, cb, log);
       });
     }
 
@@ -68,10 +68,11 @@ function saveWriting(user_id, submission_id, entry_type, division,
 
 }
 
-function readWriting(entry_type, user_id, cb) {
+function readWriting(entry_type, user_id, cb, log) {
   pool.query('SELECT * FROM writing WHERE user_id = ? AND type = ? AND year = ?',
     [user_id, entry_type, competition_year] , (err, rows) => {
       if (err) {
+        log.error(err)
         cb(true, err.code);
         return;
       }

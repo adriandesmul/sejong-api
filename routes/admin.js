@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../db/db.js');
 
 router.post('/spoof', (req, res) => {
-  console.log(req.user)
+  req.log.info({user: req.user}, "Requesting spoof")
 
   if (!req.user.admin) {
     res.status(401).send();
@@ -27,10 +27,8 @@ router.post('/spoof', (req, res) => {
       admin: false
     }
 
-    console.log(userObj)
-
     res.send(jwt.sign(userObj, process.env.SECRET_KEY))
-  })
+  }, req.log)
 })
 
 module.exports = router;

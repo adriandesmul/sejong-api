@@ -5,33 +5,33 @@ const db = require('../db/db.js');
 const uuid = require('uuid/v4')
 
 router.get('/sijo', (req, res) => {
-  console.log('[WRITING - SIJO] Attempting to read sijo for (' + req.user.user + ')');
+  req.log.info({user: req.user.user}, 'Attempting to read sijo');
   db.writing.read('sijo', req.user.user_id, (error, data) => {
     if (error) {
       res.status(500).send('Error reading sijo');
       return;
     }
 
-    console.log('[WRITING - SIJO] Successfully read sijo for (' + req.user.user + ')');
+    req.log.info({user: req.user.user}, 'Successfully read sijo');
     res.send(data);
-  })
+  }, req.log)
 })
 
 router.get('/essay', (req, res) => {
-  console.log('[WRITING - ESSAY] Attempting to read essay for (' + req.user.user + ')');
+  req.log.info({user: req.user.user}, 'Attempting to read essay');
   db.writing.read('essay', req.user.user_id, (error, data) => {
     if (error) {
       res.status(500).send('Error reading essay');
       return;
     }
 
-    console.log('[WRITING - ESSAY] Successfully read essay for (' + req.user.user + ')');
+    req.log.info({user: req.user.user}, 'Successfully read essay');
     res.send(data);
-  })
+  }, req.log)
 })
 
 router.post('/save', (req, res) => {
-  console.log('[WRITING - SAVE] Attempting to save entry for (' + req.user.user + ')');
+  req.log.info({user: req.user.user}, 'Attempting to save writing');
 
   let title = req.body.title;
   let body = req.body.body;
@@ -54,12 +54,12 @@ router.post('/save', (req, res) => {
     folktale, title, body, (result) => {
     if (result.error) {
       res.status(400);
-      console.log('[WRITING - SAVE] Failed to save entry for (' + req.user.user + ')');
+      req.log.info({user: req.user.user}, 'Failed to save writing');
     } else {
-      console.log('[WRITING - SAVE] Successfully saved entry for (' + req.user.user + ')');
+      req.log.info({user: req.user.user}, 'Successfully saved writing');
     }
     res.send(result.msg);
-  })
+  }, req.log)
 })
 
 module.exports = router;

@@ -1,5 +1,4 @@
 if (process.env.DB == "mock") {
-  console.log("- - - USING MOCKS - - -")
   module.exports = {
     user: require('./mocks/user.js')(),
     demographics: require('./mocks/demographics.js')(),

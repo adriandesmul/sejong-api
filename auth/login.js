@@ -4,8 +4,8 @@ const db = require('../db/db.js');
 const bcrypt = require('bcrypt-nodejs');
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
-passport.use(new LocalStrategy((username, password, done) => {
-  console.log("[AUTH] Login attempt for (" + username + ")");
+passport.use(new LocalStrategy({passReqToCallback: true}, (req, username, password, done) => {
+  req.log.info({user: username}, "Login attempt");
 
   db.user.read(username, (res) => {
       var user = res.user;
@@ -23,11 +23,11 @@ passport.use(new LocalStrategy((username, password, done) => {
           });
         }
       } catch(e) {
-        console.log(e)
+        req.log.error(e)
         return done(null, false);
       }
 
       return done(null, false);
-  });
+  }, req.log);
 
 }))

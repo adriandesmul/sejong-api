@@ -2,6 +2,9 @@ const path = require('path');
 const fs = require('fs');
 const https = require('https');
 const cron = require('node-cron');
+const bunyan = require('bunyan');
+const uuid = require('uuid');
+var log = bunyan.createLogger({name: 'sejong-api'});
 
 let env = 'local';
 let port = 3000;
@@ -33,8 +36,6 @@ const passport = require('passport');
 require('./auth/login.js');
 require('./auth/jwt.js');
 
-var db = require('./db/db.js');
-
 app.use(passport.initialize());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
@@ -44,9 +45,8 @@ app.use(function(req, res, next) {
   next();
 });
 app.use((req, res, next) => {
-  console.log('');
-  console.log('~ ~ [ NEW REQUEST ] ~ ~');
-  console.log('API Request on ' + req.path);
+  req.log = log.child({reqId: uuid(), path: req.path})
+  req.log.info('New request')
   next();
 });
 
@@ -62,9 +62,11 @@ app.use('/demographics', passport.authenticate('jwt', {session: false}), demogra
 app.use('/writing', passport.authenticate('jwt', {session: false}), writing);
 app.use('/admin', passport.authenticate('jwt', {session: false}), admin);
 
-app.get('/', (req, res) => res.send("Hello world! v2"));
+app.get('/', (req, res) => {
+  res.send("Hello world! v2")
+});
 
-app.listen(port, () => console.log('API listening on port ' + port));
+app.listen(port, () => log.info({mode: env}, 'API listening on port ' + port));
 if (env == "prod") { https.createServer(options, app).listen(443) }
 
 const backup = require('./util/backup.js');

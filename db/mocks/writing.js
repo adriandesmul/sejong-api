@@ -1,10 +1,7 @@
 var competitionYear = process.env.YEAR;
 
-function readWriting(entry_type, user_id, cb) {
-  console.log('- - - MOCK - - -')
-  console.log('Read writing');
-  console.log('Username is (' + user_id + ')')
-  console.log('- - - END MOCK - - -')
+function readWriting(entry_type, user_id, cb, log) {
+  log.info({user: user_id}, "[MOCK] Read writing")
 
   var blank_sijo = {
     "submission_id": '',
@@ -60,18 +57,19 @@ function readWriting(entry_type, user_id, cb) {
 }
 
 function saveWriting(user_id, submission_id, entry_type, division,
-  folktale, title, body, cb) {
-  console.log('- - - MOCK - - -')
-  console.log('Update writing');
-  console.log('User ID: ', user_id);
-  console.log('Submission ID: ', submission_id);
-  console.log('Title: ', title);
-  console.log('Body: ', body);
-  console.log('Type: ', entry_type);
-  console.log('Division: ', division);
-  console.log('Folktale: ', folktale);
-  console.log('Year: ', competitionYear);
-  console.log('- - - END MOCK - - -')
+  folktale, title, body, cb, log) {
+
+  log.info({user: user_id, data: {
+    user_id: user_id,
+    submission_id: submission_id,
+    title: title,
+    body: body,
+    entry_type: entry_type,
+    division: division,
+    folktale: folktale,
+    competitionYear: competitionYear
+  }}, "[MOCK] Update writing")
+
   cb({
     error: false,
     msg: 'Submission save successful'
