@@ -1,9 +1,9 @@
 var competitionYear = process.env.YEAR;
 
-function readWriting(entry_type, username, cb) {
+function readWriting(entry_type, user_id, cb) {
   console.log('- - - MOCK - - -')
   console.log('Read writing');
-  console.log('Username is (' + username + ')')
+  console.log('Username is (' + user_id + ')')
   console.log('- - - END MOCK - - -')
 
   var blank_sijo = {
@@ -46,11 +46,11 @@ function readWriting(entry_type, username, cb) {
 
   var returnObj = {};
 
-  if (entry_type == 'sijo' && username == 'blank') {
+  if (entry_type == 'sijo' && user_id == 2) {
     returnObj = blank_sijo;
   } else if (entry_type == 'sijo') {
     returnObj = test_sijo;
-  } else if (entry_type == 'essay' && username == 'blank') {
+  } else if (entry_type == 'essay' && user_id == 2) {
     returnObj = blank_essay;
   } else if (entry_type == 'essay') {
     returnObj = test_essay;
@@ -59,11 +59,11 @@ function readWriting(entry_type, username, cb) {
   cb(false, returnObj);
 }
 
-function saveWriting(username, submission_id, entry_type, division,
+function saveWriting(user_id, submission_id, entry_type, division,
   folktale, title, body, cb) {
   console.log('- - - MOCK - - -')
   console.log('Update writing');
-  console.log('Username: ', username);
+  console.log('User ID: ', user_id);
   console.log('Submission ID: ', submission_id);
   console.log('Title: ', title);
   console.log('Body: ', body);
@@ -72,7 +72,10 @@ function saveWriting(username, submission_id, entry_type, division,
   console.log('Folktale: ', folktale);
   console.log('Year: ', competitionYear);
   console.log('- - - END MOCK - - -')
-  cb(false, 'Submission save successful')
+  cb({
+    error: false,
+    msg: 'Submission save successful'
+  })
 }
 
 module.exports = function() {
