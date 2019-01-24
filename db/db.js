@@ -7,13 +7,19 @@ if (process.env.DB == "mock") {
   }
 } else {
 
-  var AWS = require('aws-sdk');
-  var dynamo = new AWS.DynamoDB({region: 'us-east-1'})
+  var mysql = require('mysql');
+  var pool = mysql.createPool({
+    connectionLimit: 10,
+    host     : process.env.DB_HOST,
+    user     : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_NAME,
+  });
 
   module.exports = {
-    user: require('./user.js')(dynamo),
-    demographics: require('./demographics.js')(dynamo),
-    writing: require('./writing.js')(dynamo)
+    user: require('./user.js')(pool),
+    demographics: require('./demographics.js')(pool),
+    writing: require('./writing.js')(pool)
   }
 
 }

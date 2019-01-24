@@ -7,51 +7,47 @@ function createUser(username, email, password, cb) {
     status: ''
   }
 
-  var getParams = {
-    Key: {
-      "username": { S: username }
-    },
-    TableName: "sejong-users"
-  };
+  pool.query("SELECT user_id FROM users WHERE username = ?",
+    [username], (error, data) => {
 
-  var putParams = {
-    Item: {
-      "username": { S: username },
-      "email": { S: email },
-      "password": { S: password },
-      "admin": { BOOL: false }
-    },
-    ReturnConsumedCapacity: "TOTAL",
-    TableName: "sejong-users"
-  };
-
-  pool.getItem(getParams, (err, data) => {
-    if (err) {
-      console.log(err);
+    if (error) {
+      console.log(error);
       res.error = true;
-      res.status = "Unknown error"
       cb(res);
       return;
     }
 
-    if (data.Item) {
+    if (data[0] && data[0].user_id) {
       res.error = true;
       res.status = "Username already exists"
       console.log("Attempted to create new user: (" + username + ") and the user already exists");
-      cb(res)
-    } else {
-      pool.putItem(putParams, (err, data) => {
-        if (err) console.log(err);
-        res.status = {
-          'user': username,
-          'admin': false
-        }
-        console.log('Created new user: ' + username);
-        cb(res)
-      })
+      cb(res);
+      return;
     }
-  })
 
+    pool.query("INSERT INTO users SET ?", {
+      username: username,
+      password: password,
+      email: email,
+      admin: false
+    }, (error, data) => {
+      if (error) {
+        console.log(error);
+        res.error = true;
+        res.status = "Unknown error"
+        cb(res)
+        return;
+      }
+
+      console.log("Created new user: " + username);
+      res.status = {
+        user: username,
+        admin: false
+      }
+      cb(res);
+    })
+
+  })
 }
 
 function readUser(username, cb) {
@@ -62,28 +58,20 @@ function readUser(username, cb) {
     user: null
   }
 
-  var getParams = {
-    Key: {
-      "username": { S: username }
-    },
-    TableName: "sejong-users"
-  }
-
-  pool.getItem(getParams, (err, data) => {
-    if (err) {
-      console.log(err);
+  pool.query('SELECT * FROM users WHERE username = ?', [username], (error, data) => {
+    if (error) {
+      console.log(error);
       res.error = true;
       cb(res);
       return;
     }
 
-    if (data.Item) {
-      console.log(data.Item)
+    if (data[0] && data[0].user_id) {
       res.user = {
-        username: data.Item.username.S,
-        password: data.Item.password.S,
-        admin: data.Item.admin.BOOL,
-        email: data.Item.email.S
+        username: data[0].username,
+        password: data[0].password,
+        admin: data[0].admin,
+        email: data[0].email
       }
       cb(res);
       return;
@@ -91,8 +79,8 @@ function readUser(username, cb) {
 
     res.error = true;
     cb(res);
-  })
 
+  })
 }
 
 function updateUser(username, password, email, admin, cb) {
@@ -101,28 +89,24 @@ function updateUser(username, password, email, admin, cb) {
     status: ''
   };
 
-  var putParams = {
-    Item: {
-      "username": { S: username },
-      "password": { S: password },
-      "email": { S: email },
-      "admin": { BOOL: admin }
+  pool.query("UPDATE users SET ? WHERE username = ?", [
+    {
+      password: password,
+      email: email,
+      admin: admin
     },
-    ReturnConsumedCapacity: "TOTAL",
-    TableName: "sejong-users"
-  }
-
-  pool.putItem(putParams, (err, data) => {
-    if (err) {
-      console.log(err);
+    username
+  ], (error, data) => {
+    if (error) {
+      console.log(error);
       res.error = true;
       res.status = "Unknown error";
       cb(res);
       return;
     }
 
-    res.status = "Updated password";
-    cb(res);
+    res.status = "Updated password"
+    cb(res)
   })
 }
 
