@@ -9,8 +9,7 @@
     "start-dev": "nodemon index.js --mode=dev --port=3000",
     "start-prod": "node index.js --mode=prod",
     "local-db": "docker run -p 3306:3306 -v '$PWD'/local-db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql",
-    "update-db": "node ./util/database.js --mode=prod",
-    "backup-db": "node ./util/backup.js --mode=prod"
+    "update-db": "node ./util/database.js --mode=prod"
   },
   "repository": {
     "type": "git",
@@ -31,6 +30,7 @@
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
     "mysql": "^2.16.0",
+    "node-cron": "^2.0.3",
     "nodemon": "^1.18.4",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",

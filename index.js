@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
+const cron = require('node-cron');
 
 let env = 'local';
 let port = 3000;
@@ -65,3 +66,6 @@ app.get('/', (req, res) => res.send("Hello world! v2"));
 
 app.listen(port, () => console.log('API listening on port ' + port));
 if (env == "prod") { https.createServer(options, app).listen(443) }
+
+const backup = require('./util/backup.js');
+cron.schedule("0 4 * * *", backup);
