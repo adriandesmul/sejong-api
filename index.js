@@ -61,7 +61,7 @@ app.use('/demographics', passport.authenticate('jwt', {session: false}), demogra
 app.use('/writing', passport.authenticate('jwt', {session: false}), writing);
 app.use('/admin', passport.authenticate('jwt', {session: false}), admin);
 
-app.get('/', (req, res) => res.send("Hello world!"));
+app.get('/', (req, res) => res.send("Hello world! v2"));
 
 app.listen(port, () => console.log('API listening on port ' + port));
 if (env == "prod") { https.createServer(options, app).listen(443) }
