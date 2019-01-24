@@ -68,6 +68,7 @@ function readUser(username, cb) {
 
     if (data[0] && data[0].user_id) {
       res.user = {
+        user_id: data[0].user_id,
         username: data[0].username,
         password: data[0].password,
         admin: data[0].admin,

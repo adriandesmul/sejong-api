@@ -1,18 +1,26 @@
 var pool = null;
 var competition_year = process.env.YEAR;
 
-function readWriting(entry_type, username, cb) {
-  if (!entry_type || !username) { return; }
+var mysql = require('mysql')
 
-  var res = {
-    error: false,
-    data: null
+function writingUpdateCallback(error, data, cb) {
+
+  if (error) {
+    console.log(error);
+    cb({
+      error: true,
+      msg: "Unknown error"
+    })
+    return;
   }
 
-
+  cb({
+    error: false,
+    msg: "Save successful"
+  })
 }
 
-function saveWriting(username, submission_id, entry_type, division,
+function saveWriting(user_id, submission_id, entry_type, division,
   folktale, title, body, cb) {
 
   var res = {
@@ -20,38 +28,44 @@ function saveWriting(username, submission_id, entry_type, division,
     msg: null
   }
 
-  var putParams = {
-    Item: {
-      "submission_id": { S: submission_id },
-      "username": { S: username },
-      "title": { S: title },
-      "body": { S: body },
-      "entry_type": { S: entry_type },
-      "division": { S: division },
-      "folktale": { S: folktale },
-      "year": { S: competition_year }
-    },
-    ReturnConsumedCapacity: "TOTAL",
-    TableName: "sejong-entries"
+  var dataObj = {
+    user_id: user_id,
+    type: entry_type,
+    division: division,
+    folktale: folktale,
+    title: title,
+    body: body,
+    year: competition_year
   }
 
-  pool.putItem(putParams, (err, data) => {
-    if (err) {
-      console.log(err);
+  pool.query("SELECT * FROM writing WHERE user_id = ? AND type = ? AND year = ?", [
+    user_id, entry_type, competition_year
+  ], (error, data) => {
+    if (error) {
+      console.log(error);
       res.error = true;
       res.msg = "Unknown error";
       cb(res);
       return;
     }
-    res.msg = "Save successful";
-    cb(res);
+
+    if (data[0] && data[0].submission_id) {
+      pool.query("UPDATE writing SET ? WHERE submission_id = ?", [
+        dataObj,
+        data[0].submission_id
+      ], writingUpdateCallback(error, data, cb))
+    } else {
+      pool.query("INSERT INTO writing SET ?", [ dataObj ],
+        writingUpdateCallback(error, data, cb));
+    }
+
   })
 
 }
 
-function readWriting_old(entry_type, user_id, cb) {
+function readWriting(entry_type, user_id, cb) {
   pool.query('SELECT * FROM writing WHERE user_id = ? AND type = ? AND year = ?',
-    [user_id, entry_type, competitionYear] , (err, rows) => {
+    [user_id, entry_type, competition_year] , (err, rows) => {
       if (err) {
         cb(true, err.code);
         return;

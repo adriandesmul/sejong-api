@@ -6,7 +6,7 @@ const uuid = require('uuid/v4')
 
 router.get('/sijo', (req, res) => {
   console.log('[WRITING - SIJO] Attempting to read sijo for (' + req.user.user + ')');
-  db.writing.read('sijo', req.user.user, (error, data) => {
+  db.writing.read('sijo', req.user.user_id, (error, data) => {
     if (error) {
       res.status(500).send('Error reading sijo');
       return;
@@ -19,7 +19,7 @@ router.get('/sijo', (req, res) => {
 
 router.get('/essay', (req, res) => {
   console.log('[WRITING - ESSAY] Attempting to read essay for (' + req.user.user + ')');
-  db.writing.read('essay', req.user.user, (error, data) => {
+  db.writing.read('essay', req.user.user_id, (error, data) => {
     if (error) {
       res.status(500).send('Error reading essay');
       return;
@@ -36,7 +36,7 @@ router.post('/save', (req, res) => {
   let title = req.body.title;
   let body = req.body.body;
   let entry_type = req.body.entry_type;
-  let submission_id = req.body.submission_id || uuid();
+  let submission_id = req.body.submission_id;
   let division = req.body.division;
   let folktale = req.body.folktale;
 
@@ -50,11 +50,15 @@ router.post('/save', (req, res) => {
     return;
   }
 
-  db.writing.save(req.user.user, submission_id, entry_type, division,
-    folktale, title, body, (error, status) => {
-    if (error) res.status(400);
-    console.log('[WRITING - SAVE] Successfully saved entry for (' + req.user.user + ')');
-    res.send(status);
+  db.writing.save(req.user.user_id, submission_id, entry_type, division,
+    folktale, title, body, (result) => {
+    if (result.error) {
+      res.status(400);
+      console.log('[WRITING - SAVE] Failed to save entry for (' + req.user.user + ')');
+    } else {
+      console.log('[WRITING - SAVE] Successfully saved entry for (' + req.user.user + ')');
+    }
+    res.send(result.msg);
   })
 })
 
