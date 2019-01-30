@@ -111,12 +111,63 @@ function updateUser(username, password, email, admin, cb, log) {
   })
 }
 
+function readAllUsers(cb, log) {
+  var res = {
+    error: false,
+    data: null
+  }
+
+  pool.query("SELECT u.user_id, username, email, personal_first_name, " +
+    "personal_last_name FROM users u LEFT JOIN demographics d" +
+    " ON u.user_id = d.user_id", (error, data) => {
+
+    if (error) {
+      log.error(error);
+      res.error = true
+      cb(res);
+      return;
+    }
+
+    res.data = data;
+    cb(res)
+
+  });
+}
+
+function readUserById(user_id, cb, log) {
+  var res = {
+    error: false,
+    data: null
+  }
+
+  pool.query("SELECT * FROM users u LEFT JOIN demographics d" +
+    " ON u.user_id = d.user_id WHERE u.user_id = ?", [user_id], (error, data) => {
+
+    if (error) {
+      log.error(error);
+      res.error = true
+      cb(res);
+      return;
+    }
+
+    if (data[0].password) {
+      delete data[0].password
+    }
+
+    res.data = data[0];
+    cb(res)
+
+  });
+}
+
 module.exports = function(connectionPool) {
   pool = connectionPool;
 
   return {
     create: createUser,
     read: readUser,
-    update: updateUser
+    update: updateUser,
+    readAll: readAllUsers,
+    readUserById: readUserById
   }
 }

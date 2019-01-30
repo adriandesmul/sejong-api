@@ -31,4 +31,36 @@ router.post('/spoof', (req, res) => {
   }, req.log)
 })
 
+router.get('/users', (req, res) => {
+  if (!req.user.admin) {
+    res.status(401).send();
+    return;
+  }
+
+  db.user.readAll((result) => {
+    if (result.error) {
+      res.status(500).send('Error getting users');
+      return
+    }
+
+    res.send(result.data);
+  }, req.log);
+});
+
+router.get('/users/:id', (req, res) => {
+  if (!req.user.admin) {
+    res.status(401).send();
+    return;
+  }
+
+  db.user.readUserById(req.params.id, (result) => {
+    if (result.error) {
+      res.status(500).send('Error getting user');
+      return
+    }
+
+    res.send(result.data);
+  }, req.log);
+});
+
 module.exports = router;

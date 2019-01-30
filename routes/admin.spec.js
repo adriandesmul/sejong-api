@@ -47,6 +47,14 @@ describe('Admin routes', function() {
   })
 
   describe('ROSTER', function() {
+    it('should return all users with their names', function(done) {
+        request.get('/admin/users')
+          .set('Authorization', 'Bearer ' + adminToken)
+          .expect(200)
+          .expect('Content-Length', '242')
+          .end(done)
+    })
+
     xit('should return all users with their status for this year', function(done) {
 
     })

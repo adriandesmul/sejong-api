@@ -50,7 +50,7 @@ router.post('/update', (req, res) => {
       res.status(200).send('Updated demographics for ' + req.user.user);
     }, req.log)
   } else {
-    req.log.error(validityCheck.errors)
+    req.log.warn(validityCheck.errors)
     res.status(422).send(validityCheck.errors)
   }
 

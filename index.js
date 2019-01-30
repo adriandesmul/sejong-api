@@ -4,18 +4,7 @@ const https = require('https');
 const cron = require('node-cron');
 const bunyan = require('bunyan');
 const uuid = require('uuid');
-var log = bunyan.createLogger({
-  name: 'sejong-api',
-  streams: [
-    {
-      level: 'info',
-      path: './info.log'
-    }, {
-      level: 'error',
-      path: './error.log'
-    }
-  ]
-});
+var log;
 
 let env = 'local';
 let port = 3000;
@@ -28,6 +17,25 @@ for (let item in process.argv) {
   if (process.argv[item].indexOf('port') != -1) {
     port = parseInt(process.argv[item].split('=')[1])
   }
+}
+
+if (env == "prod") {
+  log = bunyan.createLogger({
+    name: 'sejong-api',
+    streams: [
+      {
+        level: 'info',
+        path: './info.log'
+      }, {
+        level: 'error',
+        path: './error.log'
+      }
+    ]
+  });
+} else {
+  log = bunyan.createLogger({
+    name: 'sejong-api'
+  });
 }
 
 if (env == "prod") {
