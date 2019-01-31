@@ -8,7 +8,7 @@
     "start-local": "nodemon index.js -i '*.spec.js' --mode=local | bunyan",
     "start-dev": "nodemon index.js --mode=dev --port=3000 | bunyan",
     "start-prod": "node index.js --mode=prod",
-    "local-db": "docker run -p 3306:3306 -v '$PWD'/local-db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql",
+    "local-db": "docker-compose -f local-db.yml up",
     "update-db": "node ./util/database.js --mode=prod"
   },
   "repository": {
