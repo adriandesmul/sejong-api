@@ -22,6 +22,7 @@ router.post('/spoof', (req, res) => {
     }
 
     var userObj = {
+      user_id: result.user.user_id,
       user: result.user.username,
       email: result.user.email,
       admin: false

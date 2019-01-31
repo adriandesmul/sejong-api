@@ -1,5 +1,6 @@
 var pool = null;
-const uuid = require('uuid/v4')
+const uuid = require('uuid/v4');
+var competition_year = process.env.YEAR;
 
 function createUser(username, email, password, cb, log) {
   var res = {
@@ -117,9 +118,12 @@ function readAllUsers(cb, log) {
     data: null
   }
 
-  pool.query("SELECT u.user_id, username, email, personal_first_name, " +
-    "personal_last_name FROM users u LEFT JOIN demographics d" +
-    " ON u.user_id = d.user_id", (error, data) => {
+  pool.query("SELECT u.user_id, username, email, personal_first_name, personal_last_name, " +
+    "d.status AS demo_status, e.status AS essay_status, s.status AS sijo_status FROM users u " +
+  	"LEFT JOIN demographics d ON u.user_id = d.user_id " +
+  	"LEFT JOIN (SELECT user_id, status FROM writing WHERE type = 'essay' AND year = ?) e ON u.user_id = e.user_id " +
+  	"LEFT JOIN (SELECT user_id, status FROM writing WHERE type = 'sijo' AND year = ?) s ON u.user_id = s.user_id",
+    [competition_year, competition_year], (error, data) => {
 
     if (error) {
       log.error(error);

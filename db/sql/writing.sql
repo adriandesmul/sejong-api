@@ -1,6 +1,7 @@
 CREATE TABLE writing (
   submission_id INT AUTO_INCREMENT NOT NULL,
   user_id INT,
+  status: BOOLEAN,
   title VARCHAR(255),
   body MEDIUMTEXT,
   type VARCHAR(255),

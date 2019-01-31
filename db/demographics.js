@@ -58,6 +58,12 @@ function updateDemographics(user_id, demographics, cb, log) {
 
   demographics.user_id = user_id;
 
+  if (demographics.personal_first_name && demographics.personal_last_name) {
+    demographics.status = true;
+  } else {
+    demographics.status = false;
+  }
+
   pool.query("SELECT demographics_id FROM demographics WHERE user_id = ?",
     [user_id], (error, data) => {
 

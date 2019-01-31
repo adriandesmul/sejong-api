@@ -29,8 +29,19 @@ function saveWriting(user_id, submission_id, entry_type, division,
     msg: null
   }
 
+  var status = false;
+
+  if (entry_type == "essay") {
+    if (division && folktale && (body.length > 20)) { status = true; }
+  }
+
+  if (entry_type == "sijo") {
+    if (division && (body.length > 20)) { status = true; }
+  }
+
   var dataObj = {
     user_id: user_id,
+    status: status,
     type: entry_type,
     division: division,
     folktale: folktale,

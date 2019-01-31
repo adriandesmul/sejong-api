@@ -5,6 +5,7 @@ function readWriting(entry_type, user_id, cb, log) {
 
   var blank_sijo = {
     "submission_id": '',
+    "status": 0,
     "title": '',
     "body": '',
     "type": 'sijo',
@@ -14,6 +15,7 @@ function readWriting(entry_type, user_id, cb, log) {
 
   var test_sijo = {
     "submission_id": '1',
+    "status": 1,
     "title": 'Title',
     "body": '<p>Hello - this is my sijo yosup!</p>',
     "type": 'sijo',
@@ -23,6 +25,7 @@ function readWriting(entry_type, user_id, cb, log) {
 
   var blank_essay = {
     "submission_id": '',
+    "status": 0,
     "title": '',
     "body": '',
     "type": 'essay',
@@ -33,6 +36,7 @@ function readWriting(entry_type, user_id, cb, log) {
 
   var test_essay = {
     "submission_id": '2',
+    "status": 1,
     "title": 'Test Essay Title',
     "body": '<p>My essay is here</p>',
     "type": 'essay',

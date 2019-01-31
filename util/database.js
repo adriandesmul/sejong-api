@@ -22,9 +22,7 @@ var connection = mysql.createConnection({
 });
 
 const toLoad = [
-  'demographics.sql',
-  'users.sql',
-  'writing.sql'
+  'add_status.sql'
 ]
 
 toLoad.forEach(file => {

@@ -1,6 +1,7 @@
 CREATE TABLE demographics (
   demographics_id INT AUTO_INCREMENT NOT NULL,
   user_id INT,
+  status: BOOLEAN,
   personal_first_name VARCHAR(255),
   personal_last_name VARCHAR(255),
   personal_date_of_birth VARCHAR(255),
