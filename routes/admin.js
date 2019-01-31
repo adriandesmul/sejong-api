@@ -53,13 +53,42 @@ router.get('/users/:id', (req, res) => {
     return;
   }
 
+  var returnData;
+
   db.user.readUserById(req.params.id, (result) => {
     if (result.error) {
       res.status(500).send('Error getting user');
       return
     }
 
-    res.send(result.data);
+    if (!result.data) {
+      res.send({});
+      return;
+    }
+
+    returnData = result.data
+
+    db.writing.read('essay', req.params.id, (err, essay) => {
+      if (err) {
+        res.status(500).send('Error getting essay')
+        return
+      }
+
+      returnData.essay = essay;
+
+      db.writing.read('sijo', req.params.id, (err, sijo) => {
+        if (err) {
+          res.status(500).send('Error getting essay')
+          return
+        }
+
+        returnData.sijo = sijo;
+        res.send(returnData);
+
+      }, req.log)
+
+    }, req.log)
+
   }, req.log);
 });
 

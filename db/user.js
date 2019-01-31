@@ -150,7 +150,7 @@ function readUserById(user_id, cb, log) {
       return;
     }
 
-    if (data[0].password) {
+    if (data[0] && data[0].password) {
       delete data[0].password
     }
 

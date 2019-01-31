@@ -89,7 +89,27 @@ function readUserById(user_id, cb, log) {
     "address_town": "New Town",
     "address_state": "WA",
     "address_country": "Canada",
-    "address_zip": "60293"
+    "address_zip": "60293",
+    "essay": {
+        "submission_id": 3,
+        "user_id": 1,
+        "title": "Title",
+        "body": "<p>Hello - this is my essay yosup!</p>",
+        "type": "essay",
+        "year": "2018",
+        "division": "adult",
+        "folktale": "jr-a"
+    },
+    "sijo": {
+        "submission_id": 2,
+        "user_id": 1,
+        "title": "Title",
+        "body": "<p>Hello - this is my sijo yosup!</p>",
+        "type": "sijo",
+        "year": "2018",
+        "division": "adult",
+        "folktale": ""
+    }
   }
 
   res.data = user1
