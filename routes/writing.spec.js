@@ -9,6 +9,7 @@ describe('Writing route', function() {
         .set('Authorization', 'Bearer ' + contentToken)
         .expect(200, {
           submission_id: '1',
+          status: 1,
           title: 'Title',
           type: 'sijo',
           year: "2018",
@@ -23,6 +24,7 @@ describe('Writing route', function() {
         .set('Authorization', 'Bearer ' + emptyToken)
         .expect(200, {
           submission_id: '',
+          status: 0,
           title: '',
           type: 'sijo',
           year: "2018",
@@ -39,6 +41,7 @@ describe('Writing route', function() {
         .set('Authorization', 'Bearer ' + contentToken)
         .expect(200, {
           submission_id: '2',
+          status: 1,
           title: 'Test Essay Title',
           type: 'essay',
           year: "2018",
@@ -54,6 +57,7 @@ describe('Writing route', function() {
         .set('Authorization', 'Bearer ' + emptyToken)
         .expect(200, {
           submission_id: '',
+          status: 0,
           title: '',
           type: 'essay',
           year: "2018",
