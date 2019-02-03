@@ -23,6 +23,8 @@ function readUser(username, cb, log) {
     admin: false
   }
 
+  if (username == 'admin') { user.admin = true; }
+
   cb({
     error: false,
     user: user
@@ -51,7 +53,10 @@ function readAllUsers(cb, log) {
     username: "test1",
     email: "test1@gmail.com",
     personal_first_name: "Jar Jar",
-    personal_last_name: "Binks"
+    personal_last_name: "Binks",
+    demo_status: 1,
+    sijo_status: 1,
+    essay_status: 1
   }
 
   var user2 = {
@@ -59,7 +64,10 @@ function readAllUsers(cb, log) {
     username: "test2",
     email: "test2@gmail.com",
     personal_first_name: "Luke",
-    personal_last_name: "Skywalker"
+    personal_last_name: "Skywalker",
+    demo_status: 1,
+    sijo_status: 0,
+    essay_status: 1
   }
 
   res.data = [user1, user2]
@@ -92,6 +100,7 @@ function readUserById(user_id, cb, log) {
     "address_zip": "60293",
     "essay": {
         "submission_id": 3,
+        "status": 1,
         "user_id": 1,
         "title": "Title",
         "body": "<p>Hello - this is my essay yosup!</p>",
@@ -102,6 +111,7 @@ function readUserById(user_id, cb, log) {
     },
     "sijo": {
         "submission_id": 2,
+        "status": 1,
         "user_id": 1,
         "title": "Title",
         "body": "<p>Hello - this is my sijo yosup!</p>",

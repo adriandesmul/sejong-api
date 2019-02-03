@@ -37,7 +37,7 @@ router.post('/forgotPassword', (req, res) => {
       var hashedPassword = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(saltRounds));
 
       db.user.update(username, hashedPassword, res.user.email, res.user.admin, (result) => {
-        req.log.info({user: username}, 'Password update successful');
+        req.log.info({user: username}, 'Password reset successful');
       }, req.log)
     }
   }, req.log)

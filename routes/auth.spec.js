@@ -42,9 +42,5 @@ describe('Auth route', function() {
         .expect(200)
         .end(done)
     });
-
-    xit('should do nothing if the email does not match', function(done) {
-      done()
-    });
   });
 })

@@ -47,20 +47,51 @@ describe('Admin routes', function() {
   })
 
   describe('ROSTER', function() {
+
+    var user1 = {
+      user_id: 1,
+      username: "test1",
+      email: "test1@gmail.com",
+      personal_first_name: "Jar Jar",
+      personal_last_name: "Binks",
+      demo_status: 1,
+      sijo_status: 1,
+      essay_status: 1
+    }
+
+    var user2 = {
+      user_id: 2,
+      username: "test2",
+      email: "test2@gmail.com",
+      personal_first_name: "Luke",
+      personal_last_name: "Skywalker",
+      demo_status: 1,
+      sijo_status: 0,
+      essay_status: 1
+    }
+
+    var users = [user1, user2]
+
     it('should return all users with their names', function(done) {
         request.get('/admin/users')
           .set('Authorization', 'Bearer ' + adminToken)
-          .expect(200)
-          .expect('Content-Length', '242')
+          .expect(200, users)
           .end(done)
     })
 
-    xit('should return all users with their status for this year', function(done) {
+    it('should return all users with their status for this year', function(done) {
+      request.get('/admin/users')
+        .set('Authorization', 'Bearer ' + adminToken)
+        .expect(200, users)
+        .end(done)
 
     })
 
-    xit('should block non-admin users', function(done) {
-
+    it('should block non-admin users', function(done) {
+      request.get('/admin/users')
+        .set('Authorization', 'Bearer ' + userToken)
+        .expect(401)
+        .end(done)
     })
   })
 })

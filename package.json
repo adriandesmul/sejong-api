@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "test": "mocha './**/*.spec.js'",
+    "test-watch": "mocha './**/*.spec.js' --watch",
     "start-local": "nodemon index.js -i '*.spec.js' --mode=local | bunyan",
     "start-dev": "nodemon index.js --mode=dev --port=3000 | bunyan",
     "start-prod": "node index.js --mode=prod",
