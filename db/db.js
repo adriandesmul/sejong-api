@@ -2,7 +2,8 @@ if (process.env.DB == "mock") {
   module.exports = {
     user: require('./mocks/user.js')(),
     demographics: require('./mocks/demographics.js')(),
-    writing: require('./mocks/writing.js')()
+    writing: require('./mocks/writing.js')(),
+    school: require('./mocks/school.js')()
   }
 } else {
 
@@ -18,7 +19,8 @@ if (process.env.DB == "mock") {
   module.exports = {
     user: require('./user.js')(pool),
     demographics: require('./demographics.js')(pool),
-    writing: require('./writing.js')(pool)
+    writing: require('./writing.js')(pool),
+    school: require('./school.js')(pool)
   }
 
 }
