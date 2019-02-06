@@ -36,18 +36,40 @@ router.post('/createSchool', (req, res) => {
     return;
   }
 
-  db.school.createSchool(school, (error, result) => {
+  db.school.findSchool({school_name: school_name},
+    (error, result) => {
 
     if (error) {
       res.sendStatus(500);
       return
     }
 
-    school.school_id = result.school_id;
+    var dup = false;
+    for (let i in result) {
+      if (school_city == result[i].school_city &&
+        school_state == result[i].school_state) {
+        dup = true;
+      }
+    }
 
-    req.log.info({school: school}, "New school created");
-    res.send(school)
+    if (dup) {
+      res.status(400).send({school: "School already exists"});
+      return;
+    }
 
+    db.school.createSchool(school, (error, result) => {
+
+      if (error) {
+        res.sendStatus(500);
+        return
+      }
+
+      school.school_id = result.school_id;
+
+      req.log.info({school: school}, "New school created");
+      res.send(school)
+
+    }, req.log)
   }, req.log)
 
 });
@@ -82,7 +104,7 @@ router.post('/createTeacher', (req, res) => {
     return;
   }
 
-  db.school.find('id', school_id, (error, result) => {
+  db.school.findSchool({school_id: school_id}, (error, result) => {
 
     if (error) {
       res.sendStatus(500);
@@ -121,7 +143,25 @@ router.post('/update', (req, res) => {
     return;
   }
 
-  if (req.body.school_id) {
+  if (req.body.teacher_id) {
+    var teacher = {
+      school_id: req.body.school_id || '',
+      teacher_id: req.body.teacher_id || '',
+      teacher_name: req.body.teacher_name || '',
+      teacher_email: req.body.teacher_email || ''
+    }
+
+    db.school.updateTeacher(teacher, (error, result) => {
+      if (error) {
+        res.sendStatus(500);
+        return
+      }
+
+      res.send("Update complete")
+    }, req.log)
+
+    return;
+  } else if (req.body.school_id) {
 
     var school = {
       school_id: req.body.school_id || '',
@@ -142,24 +182,6 @@ router.post('/update', (req, res) => {
     }, req.log)
 
     return;
-  } else if (req.body.teacher_id) {
-    var school = {
-      school_id: req.body.school_id || '',
-      teacher_id: req.body.teacher_id || '',
-      teacher_name: req.body.teacher_name || '',
-      teacher_email: req.body.teacher_email || ''
-    }
-
-    db.school.updateTeacher(school, (error, result) => {
-      if (error) {
-        res.sendStatus(500);
-        return
-      }
-
-      res.send("Update complete")
-    }, req.log)
-
-    return;
   } else {
     res.sendStatus(400);
   }
@@ -167,6 +189,30 @@ router.post('/update', (req, res) => {
 });
 
 router.get('/find/:field/:id', (req, res) => {
+  var field = req.params.field;
+  var id = req.params.id;
+
+  if (field == "school_state" && id.length == 2) {
+    db.school.findSchool({school_state: id}, (error, result) => {
+      if (error) {
+        res.sendStatus(500);
+        return
+      }
+
+      res.send(result);
+    }, req.log)
+  } else if (field == "school_id") {
+    db.school.findTeacher({school_id: id}, (error, result) => {
+      if (error) {
+        res.sendStatus(500);
+        return
+      }
+
+      res.send(result);
+    }, req.log)
+  } else {
+    res.sendStatus(400);
+  }
 
 });
 

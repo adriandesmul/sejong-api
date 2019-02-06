@@ -18,9 +18,9 @@ function updateTeacher(teacher, cb, log) {
   cb(false, null)
 }
 
-function find(field, id, cb, log) {
-  log.info({field: field, id: id}, "[MOCK] Finding school");
-  if (field == "id" && id == "5") {
+function findSchool(query, cb, log) {
+  log.info(query, "[MOCK] Finding school");
+  if (query['school_id'] == "5") {
     cb(false, [{
       school_name: "New Trier",
       school_city: "Wilmette",
@@ -32,7 +32,7 @@ function find(field, id, cb, log) {
     return;
   }
 
-  if (field == "id" && id == 2) {
+  if (query["school_id"] == "2") {
     cb(false, []);
     return;
   }
@@ -55,12 +55,32 @@ function find(field, id, cb, log) {
   return;
 }
 
+function findTeacher(query, cb, log) {
+  log.info(query, "[MOCK] Finding school");
+  if (query["school_id"] == "5") {
+    cb(false, [{
+      school_id: 5,
+      teacher_id: 1,
+      teacher_name: "Ms. Li",
+      teacher_email: "li@school.com"
+    }, {
+      school_id: 5,
+      teacher_id: 2,
+      teacher_name: "Ms. Kim",
+      teacher_email: "kim@school.com"
+    }])
+  } else {
+    cb(false, [])
+  }
+}
+
 module.exports = function() {
   return {
     createSchool: createSchool,
     createTeacher: createTeacher,
     updateSchool: updateSchool,
     updateTeacher: updateTeacher,
-    find: find,
+    findSchool: findSchool,
+    findTeacher: findTeacher
   }
 }
