@@ -8,7 +8,7 @@ describe('School API', function() {
 
     beforeEach(() => {
       school = {};
-      school.school_name = "New Trier"
+      school.school_name = "Central Elementary School"
       school.school_city = "Wilmette"
       school.school_state = "IL"
       school.school_country = "USA"

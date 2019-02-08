@@ -46,7 +46,8 @@ router.post('/createSchool', (req, res) => {
 
     var dup = false;
     for (let i in result) {
-      if (school_city == result[i].school_city &&
+      if (school_name == result[i].school_name &&
+        school_city == result[i].school_city &&
         school_state == result[i].school_state) {
         dup = true;
       }
