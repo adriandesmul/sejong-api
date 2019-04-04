@@ -8,5 +8,8 @@ CREATE TABLE writing (
   year VARCHAR(4),
   division VARCHAR(255),
   folktale VARCHAR(255),
+  grade VARCHAR(255),
+  teacher_id INT,
+  school_id INT,
   PRIMARY KEY (submission_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
