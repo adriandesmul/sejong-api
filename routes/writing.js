@@ -2,6 +2,7 @@ const router = require('express').Router();
 const validator = require('validator');
 
 const db = require('../db/db.js');
+const writingExport = require('../export/writingExport');
 const uuid = require('uuid/v4')
 
 router.get('/sijo', (req, res) => {
@@ -59,6 +60,17 @@ router.post('/save', (req, res) => {
       req.log.info({user: req.user.user}, 'Successfully saved writing');
     }
     res.send(result.msg);
+  }, req.log)
+})
+
+router.get('/generate/:type', (req, res) => {
+  if (!(req.params.type === 'sijo' || req.params.type === 'essay')) {
+    res.status(500).send('Cannot generate')
+    return;
+  }
+
+  db.writing.read(req.params.type, req.user.user_id, (error, data) => {
+    writingExport.generatePdf(data.body, req.params.type, res)
   }, req.log)
 })
 

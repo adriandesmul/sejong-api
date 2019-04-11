@@ -8,14 +8,12 @@ router.post('/createSchool', (req, res) => {
   var school_city = req.body.school_city || '';
   var school_state = req.body.school_state || '';
   var school_country = req.body.school_country || '';
-  var school_zip = req.body.school_zip || '';
 
   var school = {
     school_name: school_name,
     school_city: school_city,
     school_state: school_state,
-    school_country: school_country,
-    school_zip: school_zip
+    school_country: school_country
   }
 
   req.log.info({school: school}, "Creating new school");
@@ -169,8 +167,7 @@ router.post('/update', (req, res) => {
       school_name: req.body.school_name || '',
       school_city: req.body.school_city || '',
       school_state: req.body.school_state || '',
-      school_country: req.body.school_country || '',
-      school_zip: req.body.school_zip || ''
+      school_country: req.body.school_country || ''
     }
 
     db.school.updateSchool(school, (error, result) => {

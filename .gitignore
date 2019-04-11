@@ -2,6 +2,9 @@ local-db
 dev.env
 prod.env
 
+.DS_Store
+*-backup.sql
+
 # Logs
 logs
 *.log
