@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/adriandesmul/sejong-api#readme",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.4",
     "aws-sdk": "^2.353.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
